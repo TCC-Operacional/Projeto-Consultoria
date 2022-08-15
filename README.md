@@ -91,4 +91,42 @@ funcao RetornaWebService(); {
 ```
 
 
+criando posto de trabalho e as características colocadas vão ser o local que a pessoa vai trabalhar, empresa e filial
+
+<div style="text-align:center;">
+<h2> Sequencia de telas para criação de postos de trabalho<h2/>
+
+![image](https://user-images.githubusercontent.com/44294260/184698349-0425caca-7590-409b-af73-462371970a0f.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698392-7cf64ed0-1caa-49ee-9fb8-c0c84fb9b782.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698420-6b508ca2-9b97-4347-9d4e-4340a1ea59f2.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698448-9429a90a-8e9e-444a-b340-f61c72fa5165.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698735-8f5a5fa3-d5b9-43ba-a7ec-e57f2b14d22d.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698750-6849f61d-01b3-48fa-9b86-67504e8279ee.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698783-e8a5cd2b-47f2-4678-b382-2d95b8092b0d.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698828-0f80bf50-8915-46b8-aaa5-67438fb099b7.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698848-b14ace86-15c4-4ef1-921f-7063d42f549c.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698888-c5c296b7-775e-479d-aafb-1e761d0f486f.png)
+
+![image](https://user-images.githubusercontent.com/44294260/184698954-ba95d17f-e0c2-4da5-bbc8-73671b6096c7.png)
+
+<div/>
+
+
+#### Os Postos de trabalho
+  
+  * Postos Omega 01 - Empresa e filial 1
+  * posto Omega 02 - Empresa = 1 e filial = 2 
+
+
+
+
   
