@@ -4,6 +4,7 @@ definir funcao DefineValores();
 definir funcao RetornarMaiorNumCad();                                                 
 definir funcao PreencheVazios();   
 definir funcao RetornaWebService();
+definir funcao ValidarEntrada();
 
 
 @---- Parâmetros de entrada e saída ----@
@@ -82,67 +83,45 @@ definir data dDatInc; @ pode ser a data de hoje  @
 @------------------------------------------------------------------------------@
 
 aMsgRet = "";
-
-nQtd = 0;
-
-se(nQtd < 1) { 
+ 
                                                                                                       
   RetornarMaiorNumCad();                                                        @Chamada de Função@
   DefineValores();                                                              @Chamada de Função@
-  PreencheVazios();                                                             @Chamada de Função@
+  PreencheVazios();
   
-  TamanhoAlfa(aNomFun, vTam);
+  ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
   
-  se (vTam < 6){
-    xCodErr = 1;
-    aMsgRet = "O nome precisa ter 6 ou mais caracteres!";
-    RetornaWebService();                                                        @Chamada de Função@
-  } senao se ((aTipSex <> "M") e (aTipSex <> "F")){
-    xCodErr = 1;
-    aMsgRet = "Digite M para Masculino e F para Feminino";
-    RetornaWebService();                                                        @Chamada de Função@
-  } senao se ((aPerPag <> "M") e (aPerPag <> "S") e (aPerPag <> "Q")){
-    xCodErr = 1;
-    aMsgRet = "Digite M para Mensal, S para Semanal e Q para Quinzenal";
-    RetornaWebService();                                                        @Chamada de Função@
-  } senao se ((aCotDef <> "S") e (aCotDef <> "N")){
-    xCodErr = 1;
-    aMsgRet = "Digite S para sim ou N para não para portador de deficiência.";
-    RetornaWebService();                                                        @Chamada de Função@
-  } senao se ((aVerInt <> "A") e (aVerInt <> "B") e (aVerInt <> "I")){
-    xCodErr = 1;
-    aMsgRet = "Digite A para alertar, B para bloquear ou I para ignorar.";
-    RetornaWebService();                                                        @Chamada de Função@
-  } senao {
-     
-    IniciarTransacao();
-    ExecSQLEx("insert into USU_T_Omega                                         \
-                 (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,\ 
-                 USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,   \
-                 USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,   \
-                 USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,   \
-                 USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,   \
-                 USU_TabOrg, USU_NumLoc, USU_CodCcu)                           \
-               values                                                          \
-                 (1, 1, :xNumCad, 1, :aNomFun, :dDatAdm, 1, 1, 1, :xTipCon,    \ 
-                 :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac, :aPerPag,   \
-                 'N', :aCotDef, :xConRho, :aVerInt, :xEstCar, :aCodCar,   \
-                 :xEstPos, :aPosTra, :xCodFil, :xTabOrg, :xNumLoc, :aCodCcu)"
-             , xCodErr, aMsgRet);
+se (aMsgRet = "") {
     
-    se(xCodErr = 0) {                                                           
-      FinalizarTransacao();
-      aMsgRet = "Funcionário inserido com sucesso!";
-    } senao {
-      DesfazerTransacao();
-      aMsgRet = "Falha ao inserir funcionário...";
-    }
+  IniciarTransacao();
+  ExecSQLEx("insert into USU_T_Omega                                         \
+                (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,\ 
+                USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,   \
+                USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,   \
+                USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,   \
+                USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,   \
+                USU_TabOrg, USU_NumLoc, USU_CodCcu)                           \
+              values                                                          \
+                (1, 1, :xNumCad, 1, :aNomFun, :dDatAdm, 1, 1, 1, :xTipCon,    \ 
+                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac, :aPerPag,   \
+                'N', :aCotDef, :xConRho, :aVerInt, :xEstCar, :aCodCar,   \
+                :xEstPos, :aPosTra, :xCodFil, :xTabOrg, :xNumLoc, :aCodCcu)"
+            , xCodErr, aMsgRet);
+  
+  se(xCodErr = 0) {                                                           
+    FinalizarTransacao();
+    aMsgRet = "Funcionário inserido com sucesso!";
+  } senao {
+    DesfazerTransacao();
+    aMsgRet = "Falha ao inserir funcionário...";
+  }
 
-    RetornaWebService();                                                        @Chamada de Função@
-  }                                                            
+  RetornaWebService();  @Chamada de Função@
+} senao {
 
-  nQtd++;                                                                       
-}
+  RetornaWebService();
+
+}                                                            
 
 @------------------------------------------------------------------------------@           
     
@@ -202,12 +181,42 @@ funcao PreencheVazios(); {
   se ((xConRho < 1) ou (xConRho > 4))                 
     xConRho = 1; @Solteiro@
 }
-                                                                                
-funcao RetornaWebService(); {      
-  InsereFuncionario.retorno.CriarLinha();                                       @Define os valores dos parâmetros de saída@
-  InsereFuncionario.retorno.codRet = xCodErr;
-  InsereFuncionario.retorno.msgRet = aMsgRet;
+
+@ A variavel aMsgRet retorna caso uma das entradas não seja valida @
+funcao ValidarEntrada();{
+  definir alfa aQuebraLinha;
+
+
+  RetornaAscii(13,aQuebraLinha);
+  TamanhoAlfa(aNomFun, vTam);
+
+  
+  se (vTam < 6){
+    xCodErr = 1;
+    aMsgRet = "O nome precisa ter 6 ou mais caracteres!";
+  } 
+
+  se ((aTipSex <> "M") e (aTipSex <> "F")){
+    xCodErr = 1;
+    aMsgRet = aMsgRet + aQuebraLinha + "Digite M para Masculino e F para Feminino";
+  } 
+  
+  se ((aPerPag <> "M") e (aPerPag <> "S") e (aPerPag <> "Q")){
+    xCodErr = 1;
+    aMsgRet = aMsgRet + aQuebraLinha + " Digite M para Mensal, S para Semanal e Q para Quinzenal";
+  } 
+  
+  se ((aCotDef <> "S") e (aCotDef <> "N")){
+    xCodErr = 1;
+    aMsgRet = aMsgRet + aQuebraLinha + " Digite S para sim ou N para não para portador de deficiência.";                  
+  } 
+  
+  se ((aVerInt <> "A") e (aVerInt <> "B") e (aVerInt <> "I")){
+    xCodErr = 1;
+    aMsgRet = aMsgRet + aQuebraLinha + "Digite A para alertar, B para bloquear ou I para ignorar.";
+  }
 }
+                                                                              
 
 funcao VariaveisValorFixo();{
 
@@ -233,4 +242,10 @@ funcao VariaveisValorFixo();{
   aApeFun = "AP" ;
 
   DataHoje(dDatInc);
+}
+
+funcao RetornaWebService(); {      
+  InsereFuncionario.retorno.CriarLinha();                                       @Define os valores dos parâmetros de saída@
+  InsereFuncionario.retorno.codRet = xCodErr;
+  InsereFuncionario.retorno.msgRet = aMsgRet;
 }
