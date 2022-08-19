@@ -89,12 +89,15 @@ funcao RetornaWebService(); {
 }
 
 ```
-
+## Postos de Trabalho
+  
+  * Postos Omega 01 - Empresa e filial 1
+  * posto Omega 02 - Empresa = 1 e filial = 2 
 
 criando posto de trabalho e as características colocadas vão ser o local que a pessoa vai trabalhar, empresa e filial
 
-<div style="text-align:center;">
-<h2> Sequencia de telas para criação de postos de trabalho<h2/>
+
+<h2> Sequencia de telas para criação de postos de trabalho </h2>
 
 ![image](https://user-images.githubusercontent.com/44294260/184698349-0425caca-7590-409b-af73-462371970a0f.png)
 
@@ -118,15 +121,221 @@ criando posto de trabalho e as características colocadas vão ser o local que a
 
 ![image](https://user-images.githubusercontent.com/44294260/184698954-ba95d17f-e0c2-4da5-bbc8-73671b6096c7.png)
 
-<div/>
-
-
-#### Os Postos de trabalho
-  
-  * Postos Omega 01 - Empresa e filial 1
-  * posto Omega 02 - Empresa = 1 e filial = 2 
+</div>
 
 
 
+### Relatório
 
-  
+![image](https://user-images.githubusercontent.com/44294260/185628327-f6ca331f-99af-42f6-b991-66fc4b8a417a.png)
+
+
+**Em Seção Detalhe**
+
+```sql
+Definir Funcao main();
+
+@@
+definir alfa aPresenteEmFun;
+definir alfa aPresenteEmUsu;
+Definir alfa aConsistente;
+
+@Funcoes@
+Definir Funcao atribuirParametros();
+Definir Funcao iniciarCursorR034FUNcompareUSUTFun1();
+Definir Funcao pegarDadosTabela();
+Definir Funcao retornarDados();
+Definir Funcao definirNomeFuncionario();
+Definir Funcao existeColaborador();
+Definir Funcao limparVariaveis();
+
+
+@variaveis de parametro@
+Definir numero nFunNumEmp;
+
+@Cursor da tabela@
+Definir Alfa cTr034funUSUTOmega;
+Definir Alfa aSQLfulljoin;
+
+@dados da tabela r034fun@
+Definir numero nFunNumEmp;
+Definir numero nFunNumCad;
+Definir numero nFunTipCol;
+Definir alfa aFunNomFun;
+
+@dados da tabela USU_TFun1@
+Definir numero nTuserUSUNumEmp;
+Definir numero nTuserUSUNumCad;
+Definir numero nTuserUSUTipCol;
+Definir alfa aTuserUSUNomFun;
+
+@Secao a ser listado@
+Definir alfa aNomeSecao;
+
+Definir alfa aNomeFunView;
+
+
+main();
+
+Funcao main();{
+    atribuirParametros();
+    iniciarCursorR034FUNcompareUSUTFun1();
+    pegarDadosTabela();
+}
+
+
+
+Funcao atribuirParametros();{
+    aNomeSecao = "Adicional_1";
+    nFunNumEmp = 1;
+}
+
+
+Funcao iniciarCursorR034FUNcompareUSUTFun1();{
+
+    aSQLfulljoin = "SELECT                                                                           \
+                        numemp, numcad, tipcol, nomfun,                             \
+                        USU_numemp, USU_numcad, USU_tipcol, USU_nomfun      \
+                    FROM r034fun                                                                \
+                    FULL OUTER JOIN USU_T_Omega                                                 \
+                        ON  numemp = USU_numemp                                            \
+                        and numcad = USU_numcad                                           \
+                        and tipcol = USU_tipcol                                           \
+                        where r034fun.USU_academia = 1";    
+
+    SQL_Criar(cTr034funUSUTOmega);
+    SQL_UsarAbrangencia(cTr034funUSUTOmega, 0);
+    SQL_UsarSQLSenior2(cTr034funUSUTOmega, 0);
+    SQL_DefinirComando(cTr034funUSUTOmega, aSQLfulljoin);
+    @SQL_DefinirInteiro(cTr034funUSUTOmega, "FunNumEmp", nFunNumEmp); @
+
+}
+
+Funcao pegarDadosTabela();{
+
+    SQL_AbrirCursor(cTr034funUSUTOmega);
+    Enquanto (SQL_EOF(cTr034funUSUTOmega) = 0)
+    {
+
+        limparVariaveis();
+
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "numemp", nFunNumEmp);
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "numcad", nFunNumCad);
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "tipcol", nFunTipCol);
+        SQL_RetornarAlfa(cTr034funUSUTOmega, "nomfun", aFunNomFun);
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "USU_numemp", nTuserUSUNumEmp);
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "USU_numcad", nTuserUSUNumCad);
+        SQL_RetornarInteiro(cTr034funUSUTOmega, "USU_tipcol", nTuserUSUTipCol);
+        SQL_RetornarAlfa(cTr034funUSUTOmega, "USU_nomfun", aTuserUSUNomFun);
+
+        
+        SQL_Proximo(cTr034funUSUTOmega);
+
+        definirNomeFuncionario();
+        existeColaborador();
+        ListaSecao(aNomeSecao);
+    }
+    SQL_FecharCursor(cTr034funUSUTOmega);
+    SQL_Destruir(cTr034funUSUTOmega);
+}
+
+
+Funcao definirNomeFuncionario();{
+    Definir alfa aNumeroCadastro; 
+         
+
+    se (aFunNomFun <> ""){
+        IntparaAlfa(nFunNumCad , aNumeroCadastro);
+        aNomeFunView = aNumeroCadastro + " " + aFunNomFun;
+    }senao {
+        IntparaAlfa(nTuserUSUNumCad , aNumeroCadastro);
+        aNomeFunView = aNumeroCadastro + " " + aTuserUSUNomFun;
+    }
+}
+
+Funcao existeColaborador();{
+
+    se(nFunNumCad <> 0){
+        aPresenteEmFun = "•";
+        alteraControle("imagem_fun_false", "imprimir", "falso");
+        alteraControle("imagem_fun_true", "imprimir", "verdadeiro");
+    }senao {
+        aPresenteEmFun = "";
+        alteraControle("imagem_fun_true", "imprimir", "false");
+        alteraControle("imagem_fun_false", "imprimir", "verdadeiro");    
+    }
+
+    
+    se(nTuserUSUNumCad <> 0){
+        aPresenteEmUsu = "•";
+        alteraControle("imagem_usu_false", "imprimir", "falso");
+        alteraControle("imagem_usu_true", "imprimir", "verdadeiro");
+    }senao  {
+        aPresenteEmUsu = "";
+        alteraControle("imagem_usu_true", "imprimir", "falso");
+        alteraControle("imagem_usu_false", "imprimir", "verdadeiro");
+    }
+    
+    
+    se((nFunNumCad <> 0) e (nTuserUSUNumCad <> 0)){
+        aConsistente = "Consistente"; 
+    }
+    
+}
+
+Funcao limparVariaveis();{
+    
+    nFunNumEmp = 0;
+    nFunNumCad = 0;
+    nFunTipCol = 0;
+    aFunNomFun = "";
+
+
+    nTuserUSUNumEmp = 0;
+    nTuserUSUNumCad = 0;
+    nTuserUSUTipCol = 0;
+    aTuserUSUNomFun = "";
+
+    aPresenteEmFun = "";
+    aPresenteEmUsu = "";
+    aConsistente = "Inconsistente";
+}
+
+
+/*
+    * 
+*/
+```
+
+![image](https://user-images.githubusercontent.com/44294260/185628204-652f4c41-7d27-429b-9b0a-989c222fa164.png)
+
+
+### Tela SGI
+
+Em gestão de Pessoas 
+
+recursos -> gerador de telas
+
+** Interfaces usadas **
+
+![image](https://user-images.githubusercontent.com/44294260/185626951-3a0f7983-afa3-42c6-93fe-72eed8f389e9.png)
+
+![image](https://user-images.githubusercontent.com/44294260/185627260-f324b576-b4ad-4d7a-8236-99b795a37d27.png)
+
+![image](https://user-images.githubusercontent.com/44294260/185627491-5425f247-85d9-48c7-a2a8-24c311414989.png)
+
+em Regras 
+
+```
+ExecutaRelatorio("FPRE188.COL", "N");
+```
+
+**Em  Formulários X-Window**
+
+![image](https://user-images.githubusercontent.com/44294260/185627757-5e77e903-be42-4644-88a6-fd6c2cd01e69.png)
+
+![image](https://user-images.githubusercontent.com/44294260/185628073-e2e72942-e62b-4c90-bfae-78655ea40af6.png)
+
+
+
+
