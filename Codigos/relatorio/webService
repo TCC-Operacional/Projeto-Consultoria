@@ -9,6 +9,7 @@ definir funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);
 
 @Mensagem de resposta@
 definir alfa aMsgRet;
+definir numero xCodErr; 
 
 @---- Parâmetros de entrada e saída ----@
 definir numero xNumCad;
@@ -20,10 +21,9 @@ definir numero xConRho; @Controle de ponto@
 definir numero xEstCar; @estrutura Cargo@
 definir numero xCodFil; @Código da filial mesma do posto@
 definir numero xNumLoc; @ pode ser 115 (produção), 124(RH) ou 130(financeiro) @
-definir numero xCodErr; 
 definir numero xCatEso; @ Código de categoria do colaborador qualquer numero@
 definir numero xCodEtb; @ Código da estabilidade pode ser 0 @
-definir numero xTipAdm; @ A definir @
+
 definir numero xRacCor; @ A definir @
 definir numero xCatSef; @ A definir @
 definir numero xNumCpf; @ A definir @
@@ -46,11 +46,8 @@ definir alfa aModPag; @ A definir definirdo por nos @
 definir alfa aRecAdi; @ S ou N para adiantamento de salário@
 definir alfa aPagSin; @ pagamento de sindicato "S" ou "N" @
 
-
-
 definir data dDatAdm; 
 definir data dDatNas;
-definir data dDatOpc; @data de operacao do fgts @
 definir data dDatAltCcu; @ R038HCC data de alteracao do cargo no centro de custo@
 
 @-----------Variaveis com Valores fixos------------@
@@ -66,11 +63,12 @@ definir numero xTabOrg; @ valor = 1 @
 definir numero xRacCor; @ R022vin - pode ser 15 @
 definir numero xCodMotHsa; @ pode ser 1 @
 definir numero xCodTmaHes; @ r006tma - pode ser 1 @
-definir numero codFicFmd ; @ R110FIC - pode ser 1@
-definir numero tipAdmHfi;  @pode ser 0@
-definir numero salEstHsa; @ R038HSA - pode ser 0@
-definir numero cplEstHsa; @ R038HSA - pode ser 0@
+definir numero xCodFicFmd ; @ R110FIC - pode ser 1@
+definir numero xTipAdmHfi;  @pode ser 0@
+definir numero xSalEstHsa; @ R038HSA - pode ser 0@
+definir numero xCplEstHsa; @ R038HSA - pode ser 0@
 definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
+definir numero xCodVin; @pode ser qualquer numero@
 
 
 
@@ -83,6 +81,7 @@ definir alfa aLisRai; @ Lista de Colaborador na rais, S ou N @
 
 
 definir data dDatInc; @ pode ser a data de hoje  @
+definir data dDatOpc; @data de operacao do fgts @
 
 
 
@@ -101,19 +100,29 @@ ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja
 se (aMsgRet = "") {
     
   IniciarTransacao();
-  ExecSQLEx("insert into USU_T_Omega                                         \
+  ExecSQLEx("insert into USU_T_Omega                                          \
                 (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,\ 
                 USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,   \
                 USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,   \
                 USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,   \
                 USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,   \
-                USU_TabOrg, USU_NumLoc, USU_CodCcu)                           \
+                USU_TabOrg, USU_NumLoc, USU_CodCcu, USU_CatEso, USU_CodEtb,   \
+                USU_TipAdm, USU_TipOpc, USU_DatOpc, USU_ModPag, USU_RecAdi,   \
+                USU_Rec13s, USU_LisRai, USU_RacCor, USU_CatSef, USU_PagSin,   \
+                USU_ApeFun, USU_NumCpf, USU_CodEst, USU_ValSal, USU_CplSal,   \
+                USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			      \
               values                                                          \
-                (1, 1, :xNumCad, 1, :aNomFun, :dDatAdm, 1, 1, 1, :xTipCon,    \ 
-                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac, :aPerPag,   \
-                'N', :aCotDef, :xConRho, :aVerInt, :xEstCar, :aCodCar,   \
-                :xEstPos, :aPosTra, :xCodFil, :xTabOrg, :xNumLoc, :aCodCcu)"
-            , xCodErr, aMsgRet);
+                (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                   \
+                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		          \ 
+                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,             \
+                :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                   \
+                :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			      \
+                :xTabOrg, :xNumLoc, :aCodCcu, :xCatEso, :xCodEtb,             \
+                :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,          \
+                :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,             \
+                :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,    \
+                :dDatInc, :xCodVin, :xCodMotHsa, :xCodTmaHes)"
+            , xCodErr, aMsgRet);   
   
   se(xCodErr = 0) {                                                           
     FinalizarTransacao();
@@ -162,9 +171,7 @@ funcao DefineValores(); {                                                       
   xTabOrg = InsereFuncionario.organograma;
   xNumLoc = InsereFuncionario.localOrganograma;
   @xCodErr = InsereFuncionario.CodErr;@
-  xCatEso = InsereFuncionario.CatEso;
-  xCodEtb = InsereFuncionario.CodEtb;
-  xTipAdm = InsereFuncionario.TipAdm;
+
   xRacCor = InsereFuncionario.RacCor;
   xCatSef = InsereFuncionario.RacCor;
   xCatSef = InsereFuncionario.CatSef;
@@ -184,8 +191,6 @@ funcao DefineValores(); {                                                       
   aVerInt = InsereFuncionario.interjornada;
   aCodCar = InsereFuncionario.cargo;
   aPosTra = InsereFuncionario.posto;
-  aTipOpc = InsereFuncionario.OptanteFGTStipopc;
-  aModPag = InsereFuncionario.ModPag;
   @aRecAdi = InsereFuncionario.RecAdi;@
   aPagSin = InsereFuncionario.PagamentoSindicato;
 
@@ -196,7 +201,6 @@ funcao DefineValores(); {                                                       
   @Variáveis do tipo data@
   dDatAdm = InsereFuncionario.admissao;                                  
   dDatNas = InsereFuncionario.nascimento;
-  dDatOpc = InsereFuncionario.DatOpc; 
   dDatAltCcu = InsereFuncionario.DatAltOpc; 
 
   VariaveisValorFixo();
@@ -277,11 +281,14 @@ funcao VariaveisValorFixo();{
   xRacCor = 15; 
   xCodMotHsa = 1; 
   xCodTmaHes = 1;
-  codFicFmd = 1; 
-  tipAdmHfi = 0; 
-  salEstHsa = 0; 
-  cplEstHsa = 0; 
+  xCodFicFmd = 1; 
+  xTipAdmHfi = 0; 
+  xSalEstHsa = 0; 
+  xCplEstHsa = 0; 
   xCodEstHsa = 1;
+  xCodVin = 10;
+  xCatEso = 9999;
+  xCodEtb = 0;
   
 
   aEmiCar = "N";  
@@ -289,8 +296,11 @@ funcao VariaveisValorFixo();{
   aApeFun = "AP" ;
   aRec13s = "S";
   aLisRai = "S";
+  aTipOpc = "S";
+  aModPag = "C";
 
   DataHoje(dDatInc);
+  DataHoje(dDatOpc);
 }
 
 funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);{
