@@ -5,6 +5,7 @@ definir funcao RetornarMaiorNumCad();
 definir funcao PreencheVazios();   
 definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
+definir funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);
 
 @Mensagem de resposta@
 definir alfa aMsgRet;
@@ -17,7 +18,6 @@ definir numero xGraIns; @Grau de Instrução@
 definir numero xCodNac; @R023NAC nacionalidade  @
 definir numero xConRho; @Controle de ponto@
 definir numero xEstCar; @estrutura Cargo@
-definir numero xEstPos; 
 definir numero xCodFil; @Código da filial mesma do posto@
 definir numero xNumLoc; @ pode ser 115 (produção), 124(RH) ou 130(financeiro) @
 definir numero xCodErr; 
@@ -56,6 +56,7 @@ definir data dDatAltCcu; @ R038HCC data de alteracao do cargo no centro de custo
 @-----------Variaveis com Valores fixos------------@
 
 definir numero xNumEmp; @ valor = 1 @
+definir numero xEstPos; @Devido aos postos cod = 2@ 
 definir numero xTipCol; @ valor = 1 @
 definir numero xAcademia; @ valor = 1 @
 definir numero xCodTap; @ valor = 1 @
@@ -70,6 +71,7 @@ definir numero tipAdmHfi;  @pode ser 0@
 definir numero salEstHsa; @ R038HSA - pode ser 0@
 definir numero cplEstHsa; @ R038HSA - pode ser 0@
 definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
+
 
 
 
@@ -90,7 +92,8 @@ aMsgRet = "";
  
                                                                                                       
 RetornarMaiorNumCad();                                                        @Chamada de Função@
-DefineValores();                                                              @Chamada de Função@
+DefineValores();
+PostodeTrabalho(xEstPos, xNumEmp);                                                              @Chamada de Função@
 PreencheVazios();
 
 ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
@@ -264,7 +267,7 @@ funcao ValidarEntrada();{
 funcao VariaveisValorFixo();{
 
   @xTipCon = 1;@
-  xNumEmp = 1; 
+  
   xTipCol = 1; 
   xAcademia = 1; 
   xCodTap = 1; 
@@ -278,7 +281,8 @@ funcao VariaveisValorFixo();{
   tipAdmHfi = 0; 
   salEstHsa = 0; 
   cplEstHsa = 0; 
-  xCodEstHsa = 1; 
+  xCodEstHsa = 1;
+  
 
   aEmiCar = "N";  
   aCodCcu = "1401";
@@ -287,6 +291,18 @@ funcao VariaveisValorFixo();{
   aLisRai = "S";
 
   DataHoje(dDatInc);
+}
+
+funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);{
+  xEstPosto = 2; 
+  xNumEmpresa = 1;
+
+  se(aPosTra = "POSTO OMEGA 01"){
+    xCodFil = 1;
+  } senao se (aPosTra = "POSTO OMEGA 02"){
+    xCodFil = 2;
+  }
+
 }
 
 funcao RetornaWebService(); {      
