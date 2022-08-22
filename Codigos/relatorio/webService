@@ -6,30 +6,32 @@ definir funcao PreencheVazios();
 definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
 
+@Mensagem de resposta@
+definir alfa aMsgRet;
 
 @---- Parâmetros de entrada e saída ----@
 definir numero xNumCad;
-definir numero xTipCon;
-definir numero xEstCiv;
-definir numero xGraIns;
-definir numero xCodNac;
-definir numero xConRho;
-definir numero xEstCar;
-definir numero xEstPos;
-definir numero xCodFil;
+definir numero xTipCon; @ Tipo de contrato valor = 1@
+definir numero xEstCiv; @Estado Civil@
+definir numero xGraIns; @Grau de Instrução@
+definir numero xCodNac; @R023NAC nacionalidade  @
+definir numero xConRho; @Controle de ponto@
+definir numero xEstCar; @estrutura Cargo@
+definir numero xEstPos; 
+definir numero xCodFil; @Código da filial mesma do posto@
 definir numero xNumLoc; @ pode ser 115 (produção), 124(RH) ou 130(financeiro) @
 definir numero xCodErr; 
-definir numero xCatEso; @ A definir @
-definir numero xCodEtb; @ A definir @
+definir numero xCatEso; @ Código de categoria do colaborador qualquer numero@
+definir numero xCodEtb; @ Código da estabilidade pode ser 0 @
 definir numero xTipAdm; @ A definir @
 definir numero xRacCor; @ A definir @
 definir numero xCatSef; @ A definir @
 definir numero xNumCpf; @ A definir @
 definir numero xValSalHsa; @ R038HSA qualquer valor @
 definir numero xCplSalHsa; @ R038HSA - pode ser qualquer numero @
-definir numero apuPonApu; @ R038APU - pode ser 1 ou 2@
-definir numero codSinHsi;  @R014SIn - "1,2,3,4,5"@
-definir numero tipSalHsa; @ R038HSA - pode ser 1 (mensalista), 2 (horista) ou 3(diarista)@
+definir numero xApuPonApu; @ R038APU - pode ser 1 ou 2@
+definir numero xCodSinHsi;  @R014SIn - "1,2,3,4,5"@
+definir numero xTipSalHsa; @ R038HSA - pode ser 1 (mensalista), 2 (horista) ou 3(diarista)@
 
 
 definir alfa aNomFun;                                                                           
@@ -39,21 +41,20 @@ definir alfa aCotDef;
 definir alfa aVerInt;
 definir alfa aCodCar;
 definir alfa aPosTra;
-definir alfa aTipOpc;
-definir alfa aModPag; @ A definir @
-definir alfa aRecAdi; @ A definir @
-definir alfa aRec13s; @ A definir @
-definir alfa aLisRai; @ A definir @
-definir alfa aPagSin; @ Valor = "S" ou "N" @
+definir alfa aTipOpc; @ Optante do FGTS S ou N @
+definir alfa aModPag; @ A definir definirdo por nos @
+definir alfa aRecAdi; @ S ou N para adiantamento de salário@
+definir alfa aPagSin; @ pagamento de sindicato "S" ou "N" @
 
 
-definir alfa aMsgRet;
+
 definir data dDatAdm; 
 definir data dDatNas;
-definir data dDatOpc; @ A definir @
-definir data dDatAltCcu; @ R038HCC @
+definir data dDatOpc; @data de operacao do fgts @
+definir data dDatAltCcu; @ R038HCC data de alteracao do cargo no centro de custo@
 
 @-----------Variaveis com Valores fixos------------@
+
 definir numero xNumEmp; @ valor = 1 @
 definir numero xTipCol; @ valor = 1 @
 definir numero xAcademia; @ valor = 1 @
@@ -64,7 +65,6 @@ definir numero xTabOrg; @ valor = 1 @
 definir numero xRacCor; @ R022vin - pode ser 15 @
 definir numero xCodMotHsa; @ pode ser 1 @
 definir numero xCodTmaHes; @ r006tma - pode ser 1 @
-
 definir numero codFicFmd ; @ R110FIC - pode ser 1@
 definir numero tipAdmHfi;  @pode ser 0@
 definir numero salEstHsa; @ R038HSA - pode ser 0@
@@ -76,20 +76,24 @@ definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
 definir alfa aEmiCar; @ valor = "N" @
 definir alfa aCodCcu; @ 1401 Recursos Humanos @ 
 definir alfa aApeFun; @ Valor = "AP" @
+definir alfa aRec13s; @ S ou N  decimo terceiro@
+definir alfa aLisRai; @ Lista de Colaborador na rais, S ou N @
 
 
 definir data dDatInc; @ pode ser a data de hoje  @
 
-@------------------------------------------------------------------------------@
+
+
+@----------------------------------Main-------------------------------------------@
 
 aMsgRet = "";
  
                                                                                                       
-  RetornarMaiorNumCad();                                                        @Chamada de Função@
-  DefineValores();                                                              @Chamada de Função@
-  PreencheVazios();
-  
-  ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
+RetornarMaiorNumCad();                                                        @Chamada de Função@
+DefineValores();                                                              @Chamada de Função@
+PreencheVazios();
+
+ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
   
 se (aMsgRet = "") {
     
@@ -117,6 +121,7 @@ se (aMsgRet = "") {
   }
 
   RetornaWebService();  @Chamada de Função@
+  
 } senao {
 
   RetornaWebService();
@@ -153,6 +158,20 @@ funcao DefineValores(); {                                                       
   xCodFil = InsereFuncionario.filial;
   xTabOrg = InsereFuncionario.organograma;
   xNumLoc = InsereFuncionario.localOrganograma;
+  @xCodErr = InsereFuncionario.CodErr;@
+  xCatEso = InsereFuncionario.CatEso;
+  xCodEtb = InsereFuncionario.CodEtb;
+  xTipAdm = InsereFuncionario.TipAdm;
+  xRacCor = InsereFuncionario.RacCor;
+  xCatSef = InsereFuncionario.RacCor;
+  xCatSef = InsereFuncionario.CatSef;
+  xNumCpf = InsereFuncionario.NumCpf;
+  xValSalHsa = InsereFuncionario.ValSalHsa;
+  xCplSalHsa = InsereFuncionario.CplSalHsa;
+  xApuPonApu = InsereFuncionario.ApuPonApu;
+  xCodSinHsi = InsereFuncionario.CodSinHsi;
+  xTipSalHsa = InsereFuncionario.TipSalHsa;
+
 
   @Variáveis alfanuméricas@  
   aNomFun = InsereFuncionario.funcionario;                               
@@ -162,11 +181,20 @@ funcao DefineValores(); {                                                       
   aVerInt = InsereFuncionario.interjornada;
   aCodCar = InsereFuncionario.cargo;
   aPosTra = InsereFuncionario.posto;
+  aTipOpc = InsereFuncionario.OptanteFGTStipopc;
+  aModPag = InsereFuncionario.ModPag;
+  @aRecAdi = InsereFuncionario.RecAdi;@
+  aPagSin = InsereFuncionario.PagamentoSindicato;
+
+
   aCodCcu = InsereFuncionario.centroCusto;
+
   
   @Variáveis do tipo data@
   dDatAdm = InsereFuncionario.admissao;                                  
   dDatNas = InsereFuncionario.nascimento;
+  dDatOpc = InsereFuncionario.DatOpc; 
+  dDatAltCcu = InsereFuncionario.DatAltOpc; 
 
   VariaveisValorFixo();
 }
@@ -179,7 +207,22 @@ funcao PreencheVazios(); {
     xEstCiv = 1; @Solteiro@
 
   se ((xConRho < 1) ou (xConRho > 4))                 
-    xConRho = 1; @Solteiro@
+    xConRho = 1; 
+
+  se ((xNumLoc <> 115) e (xNumLoc <> 124) e (xNumLoc <> 130))                 
+    xConRho = 115; 
+
+  se ((xTipCon < 1) ou (xTipCon > 13))                 
+    xTipCon = 1;
+
+  se (((xCodNac < 20) ou (xCodNac > 25)) e (((xCodNac < 30) ou (xCodNac > 39))) e (xCodNac > 33)){
+    se(((xCodNac < 41) ou (xCodNac > 43)) e (xCodNac <> 45) e (xCodNac <> 48) e (xCodNac <> 49) e (xCodNac <> 50) e (xCodNac <> 10)){
+      xCodNac = 10;
+    }
+  }
+
+  se ((xConRho < 1) ou (xConRho > 4))
+    xConRho = 2;
 }
 
 @ A variavel aMsgRet retorna caso uma das entradas não seja valida @
@@ -220,6 +263,7 @@ funcao ValidarEntrada();{
 
 funcao VariaveisValorFixo();{
 
+  @xTipCon = 1;@
   xNumEmp = 1; 
   xTipCol = 1; 
   xAcademia = 1; 
@@ -230,7 +274,6 @@ funcao VariaveisValorFixo();{
   xRacCor = 15; 
   xCodMotHsa = 1; 
   xCodTmaHes = 1;
-
   codFicFmd = 1; 
   tipAdmHfi = 0; 
   salEstHsa = 0; 
@@ -240,6 +283,8 @@ funcao VariaveisValorFixo();{
   aEmiCar = "N";  
   aCodCcu = "1401";
   aApeFun = "AP" ;
+  aRec13s = "S";
+  aLisRai = "S";
 
   DataHoje(dDatInc);
 }
