@@ -1,3 +1,6 @@
+definir interno.com.senior.g5.rh.fp.fichaBasica.FichaBasica_6 fichaBasica;
+
+
 @---- Funções ----@
 definir funcao VariaveisValorFixo();
 definir funcao DefineValores();
@@ -6,6 +9,9 @@ definir funcao PreencheVazios();
 definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
 definir funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);
+definir funcao CadastroFichaBasica();
+
+
 
 @Mensagem de resposta@
 definir alfa aMsgRet;
@@ -68,7 +74,7 @@ definir numero xTipAdmHfi;  @pode ser 0@
 definir numero xSalEstHsa; @ R038HSA - pode ser 0@
 definir numero xCplEstHsa; @ R038HSA - pode ser 0@
 definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
-definir numero xCodVin; @pode ser qualquer numero@
+definir numero xCodVinHvi; @pode ser qualquer numero@
 
 
 
@@ -88,6 +94,7 @@ definir data dDatOpc; @data de operacao do fgts @
 @----------------------------------Main-------------------------------------------@
 
 aMsgRet = "";
+xCodErr = 0;
  
                                                                                                       
 RetornarMaiorNumCad();                                                        @Chamada de Função@
@@ -98,7 +105,10 @@ PreencheVazios();
 ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
   
 se (aMsgRet = "") {
-    
+
+
+  CadastroFichaBasica();
+
   IniciarTransacao();
   ExecSQLEx("insert into USU_T_Omega                                          \
                 (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,\ 
@@ -113,7 +123,7 @@ se (aMsgRet = "") {
                 USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			      \
               values                                                          \
                 (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                   \
-                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		          \ 
+                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		        \ 
                 :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,             \
                 :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                   \
                 :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			      \
@@ -121,7 +131,7 @@ se (aMsgRet = "") {
                 :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,          \
                 :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,             \
                 :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,    \
-                :dDatInc, :xCodVin, :xCodMotHsa, :xCodTmaHes)"
+                :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
             , xCodErr, aMsgRet);   
   
   se(xCodErr = 0) {                                                           
@@ -286,7 +296,7 @@ funcao VariaveisValorFixo();{
   xSalEstHsa = 0; 
   xCplEstHsa = 0; 
   xCodEstHsa = 1;
-  xCodVin = 10;
+  xCodVinHvi = 10;
   xCatEso = 9999;
   xCodEtb = 0;
   
@@ -319,4 +329,69 @@ funcao RetornaWebService(); {
   InsereFuncionario.retorno.CriarLinha();                                       @Define os valores dos parâmetros de saída@
   InsereFuncionario.retorno.codRet = xCodErr;
   InsereFuncionario.retorno.msgRet = aMsgRet;
+}
+
+funcao CadastroFichaBasica();{
+  Definir alfa aNumLoc;
+  Definir alfa aNumCpf;
+  Definir alfa aCodFicFmd;
+  Definir alfa aDatAltCcu;
+
+  IntParaAlfa (xNumLoc,aNumLoc);
+  IntParaAlfa (xCodFicFmd,aCodFicFmd);
+  ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");
+  ConverteMascara (1,dDatAltCcu,aDatAltCcu,"DD/MM/YY");
+
+
+
+  fichaBasica.numEmp = xNumEmp; 
+  fichaBasica.datAdm = datAdm; 
+  fichaBasica.sitAfa = xSitAfa; 
+  fichaBasica.codCar = aCodCar; 
+  fichaBasica.numLoc = aNumLoc; @alfanumeiroco@ 
+  fichaBasica.codEsc = xCodEsc; 
+  fichaBasica.codFil = xCodFil; 
+  fichaBasica.codCcu = aCodCcu; 
+  fichaBasica.pagSin = aPagSin; 
+  fichaBasica.codFicFmd = aCodFicFmd; @alfanumeiroco@ 
+  fichaBasica.codTap = xCodTap; 
+  fichaBasica.cateSo = xCatEso; 
+  fichaBasica.tipOpe = "0"; 
+  fichaBasica.codVinHvi = xCodVinHvi; 
+  fichaBasica.admeSo = 1; 
+  fichaBasica.datAltCcu = aDatAltCcu; @alfanumeiroco@
+  fichaBasica.conRho = xConRho; 
+  fichaBasica.posTra = aPosTra; 
+  fichaBasica.numCad = xNumCad;  
+  fichaBasica.apuPonApu = xApuPonApu; 
+  fichaBasica.codMotHca = xCodMotHsa; 
+  fichaBasica.codTmaHes = xCodTmaHes; 
+  fichaBasica.tipAdmHfi = xTipAdmHfi; 
+  fichaBasica.nomFun = aNomFun;
+  fichaBasica.modPag = aModPag; 
+  fichaBasica.motPos = 0; 
+  fichaBasica.apeFun = aApeFun; 
+  fichaBasica.codSinHsi = xCodSinHsi; 
+  fichaBasica.codMotHsa = xCodMotHsa; 
+  fichaBasica.posObs = "Posto de trabalho interno e comum";
+  fichaBasica.tipCon = xTipCon; 
+  fichaBasica.tipSalHsa = xTipSalHsa;
+  fichaBasica.numCpf = aNumCpf; @alfanumeiroco@ @Aqui@
+  fichaBasica.tipSex = aTipSex; 
+  fichaBasica.codEstHsa = xCodEstHsa; 
+  fichaBasica.estCiv = xEstCiv; 
+  fichaBasica.graIns = xGraIns; 
+  fichaBasica.valSalHsa = xValSalHsa; @decimal@
+  fichaBasica.cplSalHsa = xCplSalHsa; @decimal@
+  fichaBasica.tipApo = 1 ;@ enum : 1-Saúde, 2-Pensão , 3-Solidariedade @
+  fichaBasica.codNac = xCodNac; 
+  fichaBasica.salEstHsa = xSalEstHsa;  @decimal@
+  fichaBasica.cplEstHsa = xCplEstHsa; @decimal@
+  fichaBasica.recAdi = aRecAdi;  
+  fichaBasica.emiCar = aEmiCar; 
+  fichaBasica.catSef = xCatSef;
+  fichaBasica.datInc = dDatInc; 
+
+  fichaBasica.Executar();
+
 }
