@@ -344,7 +344,7 @@ ExecutaRelatorio("FPRE188.COL", "N");
 numEmp:  inteiro [sim]
 datAdm:  DateTime (Máscara DD/MM/AA)
 sitAfa:  inteiro (valor padrão 1) [não]
-codCar:  String código de cargo (definir) [não]
+codCar:  String código de cargo (1) [não]
 numLoc:  String [sim] - r016orn - pode ser 115 (produção), 124(RH) ou 130(financeiro)
 codEsc:  Inteiro () - 3 flexivel
 codFil:  Interio 
@@ -483,3 +483,7 @@ recAdi: String ("S" ou "N"  para adiantamento)
 emiCar: String ("S" ou "N" para impressão de cartão de ponto)
 catSef: Inteiro (1 - Empregado)
 datInc: R034FUN - pode colocar a data de hoje pelo sistema 
+
+
+
+

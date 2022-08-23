@@ -1,5 +1,5 @@
+@---- Webservice ----@
 definir interno.com.senior.g5.rh.fp.fichaBasica.FichaBasica_6 fichaBasica;
-
 
 @---- Funções ----@
 definir funcao VariaveisValorFixo();
@@ -11,13 +11,7 @@ definir funcao ValidarEntrada();
 definir funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);
 definir funcao CadastroFichaBasica();
 
-
-
-@Mensagem de resposta@
-definir alfa aMsgRet;
-definir numero xCodErr; 
-
-@---- Parâmetros de entrada e saída ----@
+@---- Parâmetros de entrada ----@
 definir numero xNumCad;
 definir numero xTipCon; @ Tipo de contrato valor = 1@
 definir numero xEstCiv; @Estado Civil@
@@ -29,7 +23,6 @@ definir numero xCodFil; @Código da filial mesma do posto@
 definir numero xNumLoc; @ pode ser 115 (produção), 124(RH) ou 130(financeiro) @
 definir numero xCatEso; @ Código de categoria do colaborador qualquer numero@
 definir numero xCodEtb; @ Código da estabilidade pode ser 0 @
-
 definir numero xRacCor; @ A definir @
 definir numero xCatSef; @ A definir @
 definir numero xNumCpf; @ A definir @
@@ -37,8 +30,7 @@ definir numero xValSalHsa; @ R038HSA qualquer valor @
 definir numero xCplSalHsa; @ R038HSA - pode ser qualquer numero @
 definir numero xApuPonApu; @ R038APU - pode ser 1 ou 2@
 definir numero xCodSinHsi;  @R014SIn - "1,2,3,4,5"@
-definir numero xTipSalHsa; @ R038HSA - pode ser 1 (mensalista), 2 (horista) ou 3(diarista)@
-
+definir numero xTipSalHsa; @ R038HSA - 1(mensalista), 2(horista) ou 3(diarista)@
 
 definir alfa aNomFun;                                                                           
 definir alfa aTipSex;     
@@ -54,9 +46,13 @@ definir alfa aPagSin; @ pagamento de sindicato "S" ou "N" @
 
 definir data dDatAdm; 
 definir data dDatNas;
-definir data dDatAltCcu; @ R038HCC data de alteracao do cargo no centro de custo@
+definir data dDatAltCcu; @R038HCC data de alteracao do cargo no centro de custo@
 
-@-----------Variaveis com Valores fixos------------@
+@---- Parâmetros de saída ----@
+definir alfa aMsgRet;
+definir numero xCodErr; 
+
+@---- Variáveis com valores fixos ----@
 
 definir numero xNumEmp; @ valor = 1 @
 definir numero xEstPos; @Devido aos postos cod = 2@ 
@@ -69,68 +65,60 @@ definir numero xTabOrg; @ valor = 1 @
 definir numero xRacCor; @ R022vin - pode ser 15 @
 definir numero xCodMotHsa; @ pode ser 1 @
 definir numero xCodTmaHes; @ r006tma - pode ser 1 @
-definir numero xCodFicFmd ; @ R110FIC - pode ser 1@
+
 definir numero xTipAdmHfi;  @pode ser 0@
 definir numero xSalEstHsa; @ R038HSA - pode ser 0@
 definir numero xCplEstHsa; @ R038HSA - pode ser 0@
 definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
 definir numero xCodVinHvi; @pode ser qualquer numero@
 
-
-
-
 definir alfa aEmiCar; @ valor = "N" @
 definir alfa aCodCcu; @ 1401 Recursos Humanos @ 
 definir alfa aApeFun; @ Valor = "AP" @
 definir alfa aRec13s; @ S ou N  decimo terceiro@
 definir alfa aLisRai; @ Lista de Colaborador na rais, S ou N @
-
+definir alfa aCodFicFmd ; @ R110FIC - pode ser 1@
 
 definir data dDatInc; @ pode ser a data de hoje  @
 definir data dDatOpc; @data de operacao do fgts @
 
-
-
-@----------------------------------Main-------------------------------------------@
+@----------------------------------Main----------------------------------------@
 
 aMsgRet = "";
 xCodErr = 0;
- 
-                                                                                                      
-RetornarMaiorNumCad();                                                        @Chamada de Função@
-DefineValores();
-PostodeTrabalho(xEstPos, xNumEmp);                                                              @Chamada de Função@
-PreencheVazios();
-
-ValidarEntrada();  @Altera o valor da variavel a MsgRet Caso a entrada não seja valida@
+                                                                        
+RetornarMaiorNumCad();                                                          
+DefineValores();                                                                
+PostodeTrabalho(xEstPos, xNumEmp);                                              
+PreencheVazios();                                                               
+ValidarEntrada();    @Altera a variavel a MsgRet Caso a entrada não seja valida@    
   
 se (aMsgRet = "") {
-
 
   CadastroFichaBasica();
 
   IniciarTransacao();
-  ExecSQLEx("insert into USU_T_Omega                                          \
-                (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,\ 
-                USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,   \
-                USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,   \
-                USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,   \
-                USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,   \
-                USU_TabOrg, USU_NumLoc, USU_CodCcu, USU_CatEso, USU_CodEtb,   \
-                USU_TipAdm, USU_TipOpc, USU_DatOpc, USU_ModPag, USU_RecAdi,   \
-                USU_Rec13s, USU_LisRai, USU_RacCor, USU_CatSef, USU_PagSin,   \
-                USU_ApeFun, USU_NumCpf, USU_CodEst, USU_ValSal, USU_CplSal,   \
-                USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			      \
-              values                                                          \
-                (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                   \
-                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		        \ 
-                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,             \
-                :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                   \
-                :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			      \
-                :xTabOrg, :xNumLoc, :aCodCcu, :xCatEso, :xCodEtb,             \
-                :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,          \
-                :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,             \
-                :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,    \
+  ExecSQLEx("insert into USU_T_Omega                                           \
+                (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun, \ 
+                USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,    \
+                USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,    \
+                USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,    \
+                USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,    \
+                USU_TabOrg, USU_NumLoc, USU_CodCcu, USU_CatEso, USU_CodEtb,    \
+                USU_TipAdm, USU_TipOpc, USU_DatOpc, USU_ModPag, USU_RecAdi,    \
+                USU_Rec13s, USU_LisRai, USU_RacCor, USU_CatSef, USU_PagSin,    \
+                USU_ApeFun, USU_NumCpf, USU_CodEst, USU_ValSal, USU_CplSal,    \
+                USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			       \
+              values                                                           \
+                (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                    \ 
+                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		         \ 
+                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,              \
+                :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                    \
+                :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			       \ 
+                :xTabOrg, :xNumLoc, :aCodCcu, :xCatEso, :xCodEtb,              \
+                :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,           \
+                :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,              \
+                :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,     \
                 :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
             , xCodErr, aMsgRet);   
   
@@ -145,14 +133,12 @@ se (aMsgRet = "") {
   RetornaWebService();  @Chamada de Função@
   
 } senao {
-
   RetornaWebService();
-
 }                                                            
 
 @------------------------------------------------------------------------------@           
     
-funcao RetornarMaiorNumCad(); {                                                 @@
+funcao RetornarMaiorNumCad(); {                                                 
   definir cursor c_usu_t_omega;
   
   c_usu_t_omega.SQL "select usu_numcad from usu_t_omega where 0 = 1 union      \
@@ -169,7 +155,8 @@ funcao RetornarMaiorNumCad(); {                                                 
   c_usu_t_omega.FecharCursor();
 }    
     
-funcao DefineValores(); {                                                       @Define valores para as variáveis@
+@Define valores para as variáveis@
+funcao DefineValores(); {                                                       
   @Variáveis numéricas@
   xTipCon = InsereFuncionario.contrato;
   xEstCiv = InsereFuncionario.estadoCivil;
@@ -178,12 +165,7 @@ funcao DefineValores(); {                                                       
   xConRho = InsereFuncionario.contadorRonda;
   xEstCar = InsereFuncionario.estruturaCargo;
   xCodFil = InsereFuncionario.filial;
-  xTabOrg = InsereFuncionario.organograma;
   xNumLoc = InsereFuncionario.localOrganograma;
-  @xCodErr = InsereFuncionario.CodErr;@
-
-  xRacCor = InsereFuncionario.RacCor;
-  xCatSef = InsereFuncionario.RacCor;
   xCatSef = InsereFuncionario.CatSef;
   xNumCpf = InsereFuncionario.NumCpf;
   xValSalHsa = InsereFuncionario.ValSalHsa;
@@ -191,7 +173,7 @@ funcao DefineValores(); {                                                       
   xApuPonApu = InsereFuncionario.ApuPonApu;
   xCodSinHsi = InsereFuncionario.CodSinHsi;
   xTipSalHsa = InsereFuncionario.TipSalHsa;
-
+  xTipAdmHfi = InsereFuncionario.TipAdmHfi;
 
   @Variáveis alfanuméricas@  
   aNomFun = InsereFuncionario.funcionario;                               
@@ -201,12 +183,8 @@ funcao DefineValores(); {                                                       
   aVerInt = InsereFuncionario.interjornada;
   aCodCar = InsereFuncionario.cargo;
   aPosTra = InsereFuncionario.posto;
-  @aRecAdi = InsereFuncionario.RecAdi;@
   aPagSin = InsereFuncionario.PagamentoSindicato;
-
-
   aCodCcu = InsereFuncionario.centroCusto;
-
   
   @Variáveis do tipo data@
   dDatAdm = InsereFuncionario.admissao;                                  
@@ -214,6 +192,38 @@ funcao DefineValores(); {                                                       
   dDatAltCcu = InsereFuncionario.DatAltOpc; 
 
   VariaveisValorFixo();
+}
+
+funcao VariaveisValorFixo();{
+  xEstPos = 2;
+  xNumEmp = 1;
+  xTipCol = 1; 
+  xAcademia = 1; 
+  xCodTap = 1; 
+  xSitAfa = 1; 
+  xCodEsc = 3; 
+  xTabOrg = 1; 
+  xRacCor = 15; 
+  xCodMotHsa = 1;  @admissao@
+  xCodTmaHes = 1;
+  xSalEstHsa = 0; 
+  xCplEstHsa = 0; 
+  xCodEstHsa = 0;
+  xCodVinHvi = 15;
+  xCatEso = 9999;
+  xCodEtb = 0;
+  
+  aEmiCar = "N";  @Impressao de cartão de ponto@ 
+  aCodCcu = "1401";
+  aApeFun = "AP" ;
+  aRec13s = "S";
+  aLisRai = "S";
+  aTipOpc = "S";
+  aModPag = "D";
+  aCodFicFmd = "N";
+
+  DataHoje(dDatInc);
+  DataHoje(dDatOpc);
 }
                                               
 funcao PreencheVazios(); {                                                      
@@ -232,10 +242,9 @@ funcao PreencheVazios(); {
   se ((xTipCon < 1) ou (xTipCon > 13))                 
     xTipCon = 1;
 
-  se (((xCodNac < 20) ou (xCodNac > 25)) e (((xCodNac < 30) ou (xCodNac > 39))) e (xCodNac > 33)){
+  se (((xCodNac < 20) ou (xCodNac > 25)) e (((xCodNac < 30) ou (xCodNac > 39))) e (xCodNac > 33))
     se(((xCodNac < 41) ou (xCodNac > 43)) e (xCodNac <> 45) e (xCodNac <> 48) e (xCodNac <> 49) e (xCodNac <> 50) e (xCodNac <> 10)){
       xCodNac = 10;
-    }
   }
 
   se ((xConRho < 1) ou (xConRho > 4))
@@ -246,10 +255,8 @@ funcao PreencheVazios(); {
 funcao ValidarEntrada();{
   definir alfa aQuebraLinha;
 
-
   RetornaAscii(13,aQuebraLinha);
   TamanhoAlfa(aNomFun, vTam);
-
   
   se (vTam < 6){
     xCodErr = 1;
@@ -276,57 +283,17 @@ funcao ValidarEntrada();{
     aMsgRet = aMsgRet + aQuebraLinha + "Digite A para alertar, B para bloquear ou I para ignorar.";
   }
 }
-                                                                              
-
-funcao VariaveisValorFixo();{
-
-  @xTipCon = 1;@
-  
-  xTipCol = 1; 
-  xAcademia = 1; 
-  xCodTap = 1; 
-  xSitAfa = 1; 
-  xCodEsc = 1; 
-  xTabOrg = 1; 
-  xRacCor = 15; 
-  xCodMotHsa = 1; 
-  xCodTmaHes = 1;
-  xCodFicFmd = 1; 
-  xTipAdmHfi = 0; 
-  xSalEstHsa = 0; 
-  xCplEstHsa = 0; 
-  xCodEstHsa = 1;
-  xCodVinHvi = 10;
-  xCatEso = 9999;
-  xCodEtb = 0;
-  
-
-  aEmiCar = "N";  
-  aCodCcu = "1401";
-  aApeFun = "AP" ;
-  aRec13s = "S";
-  aLisRai = "S";
-  aTipOpc = "S";
-  aModPag = "C";
-
-  DataHoje(dDatInc);
-  DataHoje(dDatOpc);
-}
 
 funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);{
-  xEstPosto = 2; 
-  xNumEmpresa = 1;
-
-  se(aPosTra = "POSTO OMEGA 01"){
+  se(aPosTra = "POSTO OMEGA 01")
     xCodFil = 1;
-  } senao se (aPosTra = "POSTO OMEGA 02"){
+  senao se (aPosTra = "POSTO OMEGA 02")
     xCodFil = 2;
-  }
-
 }
 
+@Define os valores dos parâmetros de saída@
 funcao RetornaWebService(); {      
-  InsereFuncionario.retorno.CriarLinha();                                       @Define os valores dos parâmetros de saída@
+  InsereFuncionario.retorno.CriarLinha();                                       
   InsereFuncionario.retorno.codRet = xCodErr;
   InsereFuncionario.retorno.msgRet = aMsgRet;
 }
@@ -334,15 +301,12 @@ funcao RetornaWebService(); {
 funcao CadastroFichaBasica();{
   Definir alfa aNumLoc;
   Definir alfa aNumCpf;
-  Definir alfa aCodFicFmd;
-  Definir alfa aDatAltCcu;
+  @Definir alfa aDatAltCcu;@
 
   IntParaAlfa (xNumLoc,aNumLoc);
-  IntParaAlfa (xCodFicFmd,aCodFicFmd);
+
   ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");
-  ConverteMascara (1,dDatAltCcu,aDatAltCcu,"DD/MM/YY");
-
-
+  @ConverteMascara (1,dDatAltCcu,aDatAltCcu,"DD/MM/AAAA");@
 
   fichaBasica.numEmp = xNumEmp; 
   fichaBasica.datAdm = datAdm; 
@@ -359,7 +323,7 @@ funcao CadastroFichaBasica();{
   fichaBasica.tipOpe = "0"; 
   fichaBasica.codVinHvi = xCodVinHvi; 
   fichaBasica.admeSo = 1; 
-  fichaBasica.datAltCcu = aDatAltCcu; @alfanumeiroco@
+  /*fichaBasica.datAltCcu = aDatAltCcu; @alfanumeiroco@*/
   fichaBasica.conRho = xConRho; 
   fichaBasica.posTra = aPosTra; 
   fichaBasica.numCad = xNumCad;  
@@ -393,5 +357,4 @@ funcao CadastroFichaBasica();{
   fichaBasica.datInc = dDatInc; 
 
   fichaBasica.Executar();
-
 }
