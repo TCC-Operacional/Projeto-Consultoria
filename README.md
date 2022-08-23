@@ -487,3 +487,118 @@ datInc: R034FUN - pode colocar a data de hoje pelo sistema
 
 
 
+
+
+## Tela de cadastro colaborador 
+
+Colaborador: numcad
+segundo campo : nomfun
+DataAdmissão: DatAdm
+TipoAtuação: CodTap = 1 - atuação Principal
+PostoTrabalho: PosTra = POSTO OMEGA 01
+CategoriaeSocial: CatEso = 101
+Situação: SitAfa - 1
+
+Cargo: CodCar - 00001
+Escala: CodEsc - 0003
+TipoContrato: TipCon -  1
+Filial: CodFil - 0001
+Local: NumLoc - 1
+CentroCusto: CodCcu - 11 Financeiro
+sexo: TipSex - M
+EstadoCivil: EstCiv - 1
+GrauInstrucao: GraIns - 9
+DataNascimento: DatNas 
+Nacionalidade: CodNac - 10
+OptanteFGTS: TipOpc - N
+ModoPagamento: ModPag - D
+PeriodoPgto: PerPag - M mensal
+ReceberAdtoSala: RecAdi - N
+13ªSalario: Rec13s - N
+Costa de Rais: LisRai - N
+EmiCartaoPonto: - EmiCar -N
+Raça: RacCor - 1
+ContadorContrPontoRef: ConRho - 4
+CategoriaSeflip: CatSef - 01
+DataInclusao: DatInc - (Hoje)
+HoraInclusao: HorInc - agora
+
+### Histórico do Posto de Trabalho R038hpo
+
+![image](https://user-images.githubusercontent.com/44294260/186258099-64ad7338-5daa-4a05-9194-c844b58f6075.png)
+
+InicioAtuação: IniAtu - (data de  amanhã)
+MotivoAlteração: MotAlt -  01 - Admissão
+
+### Histórico de Apuração R038apu
+
+![image](https://user-images.githubusercontent.com/44294260/186258250-fa50dd28-63a6-46f9-9d8b-c3f7b357224e.png)
+
+InicioApuração: IniApu - (data de amanhã)
+TipoApuração: ApuPon - 01 (Number)
+ParticipaProcessoAcerto: ParPfa - N
+AjustaPonto: AjuPon - N
+AprovaPróprioPonto: AprPon - N
+Artigo62: ArtClt - 1 Não se aplica (Number) 
+Definição de Situação: CodDsi - 0 (Number)
+
+### Histórico Vinculo
+
+![image](https://user-images.githubusercontent.com/44294260/186258287-7f0cbc9e-4781-46de-989f-927a834027bb.png)
+
+DataAlteraçãoHvi: DatAlt - (Data dde amanhã)
+Vínculo: CodVin - 15 (Numero)
+
+### Histórico de Sindicato r038hsi
+
+![image](https://user-images.githubusercontent.com/44294260/186258327-9ad574cf-275f-4895-a487-f83f896b5600.png)
+
+Sindicato: CodSid - 02
+Sindicalizado: SocSin - N
+
+### Histórico de cargo r038hca 
+
+![image](https://user-images.githubusercontent.com/44294260/186258382-faf5d06b-12ea-421f-873b-b6e581a80bae.png)
+
+MotivoAlteração: MotAlt - 1
+
+### Histórico Escala r038hes
+
+![image](https://user-images.githubusercontent.com/44294260/186258410-3f99b507-31b9-4781-934a-070001370e94.png)
+
+NovaTurma: CodTma - 1
+
+### Histórico Filial R038hfi
+
+![image](https://user-images.githubusercontent.com/44294260/186258453-cb7fadcb-74d8-4bc9-972c-170f998402c9.png)
+
+Tipo Admissão: TipAdm - 1
+
+### Histórico Salarial R038hsa
+
+![image](https://user-images.githubusercontent.com/44294260/186258477-ce0fe5c8-444b-48f5-8c67-863069e0e076.png)
+
+Motivo: CodMot - 1 Admissão
+TipoSalario: TipSal - 1 Mensalista
+Estrutura: CodEst - 1 Demonstração
+ClasseSalarial: ClaSal - M
+NivelSalario: NivSal - 1
+
+### Informações Admissionais R034ADM
+
+![image](https://user-images.githubusercontent.com/44294260/186258514-044a4ee7-92c7-4ded-bb7c-b281fbfc90cd.png)
+
+IndicativoAdmissão: IndAdm - 1 normal
+SeguroDesemprego: AdmEso - 1 admisão
+SeguroDesemprego: SegDes
+
+### Histórico de local  R038HLO
+
+![image](https://user-images.githubusercontent.com/44294260/186258536-d9b8f486-72c3-415d-a130-918e57151fbd.png)
+
+Local de Trabalho Rais: LocTra - 1100015
+
+
+
+
+
