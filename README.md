@@ -339,3 +339,147 @@ ExecutaRelatorio("FPRE188.COL", "N");
 
 
 
+## Variaveis para entrada do Web Service
+
+numEmp:  inteiro [sim]
+datAdm:  DateTime (Máscara DD/MM/AA)
+sitAfa:  inteiro (valor padrão 1) [não]
+codCar:  String código de cargo (definir) [não]
+numLoc:  String [sim] - r016orn - pode ser 115 (produção), 124(RH) ou 130(financeiro)
+codEsc:  Inteiro () - 3 flexivel
+codFil:  Interio 
+codCcu:  String (1401 recursos humanos)
+pagSin:  String R034fun
+                S - Já recolheu ao sindicato no ano
+                P - Colaborador admitido em Dezembro, será descontado na primeira competência do Próximo Ano (*)
+                (N) - Ainda não recolheu
+                M - Profissional liberal que recolhe para sua classe profissional
+                (*) A opção 'P' só estará disponível quando a data de admissão for na competência Dezembro.
+                
+codFicFmd - String  R110FIC
+
+                    Definir a geração da ficha médica para o colaborador
+                    * Somente informar se for integrado com o módulo SM
+
+                    Se no SM em Medicina/Definições/Ficha Médica/Gerar Ficha Colaborador estiver informado:
+                    N - não informar este parâmetro
+
+                    S - informar no parâmetro AUTO
+
+                    C - informar no parâmetro
+                    CONFIRMA - se quiser gerar a ficha médica
+                    CANCELA - se não quiser gerar a ficha médica
+
+                    U - informar no parâmetro
+                    NOVO - se quiser que o SM gere um novo código da ficha médica
+                    Senão informe o código da ficha médica que quiser para o colaborador
+
+codTap inteiro - (1)
+cateSo:  inteiro
+                    Valores:
+                    101 - Empregado - Geral
+                    102 - Empregado - Trabalhador Rural por Pequeno Prazo da Lei 11.718/2008
+                    103 - Empregado - Aprendiz
+                    104 - Empregado - Doméstico
+                    105 - Empregado - contrato a termo firmado nos termos da Lei 9601/98
+                    106 - Empregado - contrato por prazo determinado nos termos da Lei 6019/74
+                    107 - Trabalhador não vinculado ao RGPS com direito ao FGTS
+                    201 - Trabalhador Avulso - Portuário
+                    202 - Trabalhador Avulso - Não Portuário (Informação do Sindicato)
+                    203 - Trabalhador Avulso - Não Portuário (Informação do Contratante)
+                    301 - Servidor Público - Titular de Cargo Efetivo
+                    302 - Servidor Público - Ocupante de Cargo exclusivo em comissão
+                    303 - Servidor Público - Exercente de Mandato Eletivo
+                    304 - Servidor Público - Agente Público
+                    305 - Servidor Público vinculado a RPPS indicado para conselho ou órgão representativo, na condição de representante do governo, órgão ou entidade ad administração pública.
+                    401 - Dirigente Sindical - Em relação a Remuneração Recebida no Sindicato.
+                    701 - Contrib. Individual - Autônomo contratado por Empresas em geral
+                    702 - Contrib. Individual - Autônomo contratado por Contrib. Individual, por pessoa física em geral, ou por missão diplomática e repartição consular de carreira estrangeiras
+                    703 - Contrib. Individual - Autônomo contratado por Entidade Beneficente de Assistência Social isenta da cota patronal
+                    704 - Excluído.
+                    711 - Contrib. Individual - Transportador autônomo contratado por Empresas em geral
+                    712 - Contrib. Individual - Transportador autônomo contratado por Contrib. Individual, por pessoa física em geral, ou por missão diplomática e repartição consular de carreira estrangeiras
+                    713 - Contrib. Individual - Transportador autônomo contratado por Entidade Beneficente de Assistência Social isenta da cota patronal
+                    721 - Contrib. Individual - Diretor não empregado com FGTS
+                    722 - Contrib. Individual - Diretor não empregado sem FGTS
+                    731 - Contrib. Individual - Cooperado que presta serviços a empresa por intermédio de cooperativa de trabalho
+                    732 - Contrib. Individual - Cooperado que presta serviços a Entidade Beneficente de Assistência Social isenta da cota patronal ou para pessoa física
+                    733 - Contrib. Individual - Cooperado eleito para direção da Cooperativa
+                    734 - Contrib. Individual - Transportador Cooperado que presta serviços a empresa por intermédio de cooperativa de trabalho
+                    735 - Contrib. Individual - Transportador Cooperado que presta serviços a Entidade Beneficente de Assistência Social isenta da cota patronal ou para pessoa física
+                    736 - Contrib. Individual - Transportador Cooperado eleito para direção da Cooperativa.
+                    741 - Contrib. Individual - Cooperado filiado a cooperativa de produção.
+                    751 - Contrib. Individual - Micro Empreendedor Individual, quando contratado por PJ
+                    781 - Ministro de confissão religiosa ou membro de vida consagrada, de congregação ou de ordem religiosa
+                    901 - Estagiário
+                    902 - Médico residente ou residente em área profissional da saúde
+                    903 - Bolsista
+                    904 - Participante de curso de formação, com etapa de concurso público, sem vínculo de emprego/estatutário
+                    905 - [Válida até 09/05/2021] Atleta não profissional em formação que receba bolsa
+                    9995 - Beneficiário Ente Público
+                    9996 - Beneficiário Ente Público - Somente Cadastro Benefício
+                    9997 - Demitido com data anterior à sucessão (categoria exclusiva Senior)
+                    9999 - Não se aplica
+
+tipOpe:  String - ("I" - Inclusão )
+
+codVinHvi:  Inteiro  R022vin - 15
+
+admeSo:  Inteiro - (1 - admissão)
+datAltCcu:  (não Informar) R038HCC
+
+conRho:  Inteiro - (1 - Ronda Ponto e Refeitório Será considerado para a contagem de colaboradores tanto para o controle de ponto quanto para o controle de refeitório.)
+
+posTra: String - (POSTO OMEGA 01 e POSTO OMEGA 02)
+numCad - Inteiro (autoincrement)
+apuPonApu: Inteiro  R038APU - pode ser 1 ou 2
+codMotHca: Inteiro (Código de alteração de cargo)(1)
+codTmaHes: Inteiro (1) r006tma
+tipAdmHfi: inteiro (1 primeiro emprego ou 2 reemprego)
+nomFun: String 
+modPag: String (D)
+motPos: Inteiro (1)
+apeFun: String ("AP")
+codSinHsi: Inteiro ( R014SIn - "1,2,3,4,5")
+codMotHsa: Interiro r076mot (1 - Admissão)
+posObs: obsPos(Já setado no código) 
+tipCon: Inteiro (1 - empregado Normal)
+tipSalHsa:  R038HSA - pode ser 1 (mensalista), 2 (horista) ou 3(diarista)
+numCpf: String (já é colocado a mascara)
+tipSex: String (M, Fs)
+codEstHsa: Inteiro (0 valor padrão)
+
+estCiv
+			1 - Solteiro
+            2 - Casado
+            3 - Divorciado
+            4 - Viúvo
+            5 - Concubinato
+            6 - Separado
+            9 - Outros:  
+            
+graIns: 
+	1 - Analfabeto
+    2 - 4ª Série Incompleta
+    3 - 4ª Série Completa
+    4 - 5ª a 8ª Série Incompleta
+    5 - 1º Grau Completo (1ª a 8ª Série)
+    6 - 2º Grau Incompleto
+    7 - 2º Grau Completo
+    8 - Superior Incompleto
+    9 - Superior Completo
+    10 - Pós-Graduação
+    11 - Mestrado
+    12 - Doutorado
+    13 - Ph.D.
+    
+valSalHsa: Double (Qualquer valor) R038HSA
+cplSalHsa: Double(Qualquer valor) R038HSA
+tipApo: Inteiro R034FUN - pode ser 1
+codNac: inteiro (10)
+salEstHsa: Double (0) R038HSA
+cplEstHsa: Double R038HSA - pode ser 0
+recAdi: String ("S" ou "N"  para adiantamento)
+emiCar: String ("S" ou "N" para impressão de cartão de ponto)
+catSef: Inteiro (1 - Empregado)
+datInc: R034FUN - pode colocar a data de hoje pelo sistema 
