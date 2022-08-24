@@ -1,5 +1,6 @@
 @---- Webservice ----@
 definir interno.com.senior.g5.rh.fp.fichaBasica.FichaBasica_6 fichaBasica;
+definir alfa aResult; 
 
 @---- Funções ----@
 definir funcao VariaveisValorFixo();
@@ -96,11 +97,15 @@ PostodeTrabalho(xEstPos, xNumEmp);
 @@                                            
 PreencheVazios();    
 @Altera MsgRet caso a entrada não seja válida@                                                           
-ValidarEntrada();   
+ValidarEntrada();  
   
 se (aMsgRet = "") {
   @@
   CadastroFichaBasica();
+  
+  aResult = fichaBasica.erroExecucao;
+
+  InsereFuncionario.ErrorMSG = aResult;
 
   @Realiza o insert no banco@
   IniciarTransacao();
@@ -129,7 +134,11 @@ se (aMsgRet = "") {
             , xCodErr, aMsgRet);   
   
   @Verifica retorno do insert e devolve um código e mensagem para o usuário@
-  se(xCodErr = 0) {                                                           
+  se(xCodErr = 0) {   
+    ExecSQL "UPDATE R034FUN set usu_academia = 1                               \
+              WHERE numcad = :xNumCad                                          \
+                AND numemp = :xNumEmp                                          \
+                AND tipcol = :xTipCol";                                                        
     FinalizarTransacao();
     aMsgRet = "Funcionário inserido com sucesso!";
   } senao {
@@ -239,7 +248,6 @@ funcao VariaveisValorFixo();{
 
   dDataAlt = dDataAlt + 1;
 
-
 }
                                               
 funcao PreencheVazios(); {                                                      
@@ -321,7 +329,7 @@ funcao CadastroFichaBasica();{
   @ConverteMascara (1,dDataAlt,aDataAlt,"DD/MM/AAAA");@
 
   fichaBasica.numEmp = xNumEmp; 
-  fichaBasica.datAdm = datAdm; 
+  fichaBasica.datAdm = dDatAdm; 
   fichaBasica.sitAfa = xSitAfa; 
   fichaBasica.codCar = aCodCar; 
   fichaBasica.numLoc = aNumLoc; @alfanumeiroco@ 
@@ -332,10 +340,10 @@ funcao CadastroFichaBasica();{
   fichaBasica.codFicFmd = aCodFicFmd; @alfanumeiroco@ 
   fichaBasica.codTap = xCodTap; 
   fichaBasica.cateSo = xCatEso; 
-  fichaBasica.tipOpe = "0"; 
+  fichaBasica.tipOpe = "I"; 
   fichaBasica.codVinHvi = xCodVinHvi; 
   fichaBasica.admeSo = 1; 
-  fichaBasica.datAltCcu = aDataAlt; @alfanumeiroco@
+  /*fichaBasica.datAltCcu = aDatAltCcu; @alfanumeiroco@*/
   fichaBasica.conRho = xConRho; 
   fichaBasica.posTra = aPosTra; 
   fichaBasica.numCad = xNumCad;  
@@ -345,7 +353,7 @@ funcao CadastroFichaBasica();{
   fichaBasica.tipAdmHfi = xTipAdmHfi; 
   fichaBasica.nomFun = aNomFun;
   fichaBasica.modPag = aModPag; 
-  fichaBasica.motPos = 0; 
+  fichaBasica.motPos = 1; 
   fichaBasica.apeFun = aApeFun; 
   fichaBasica.codSinHsi = xCodSinHsi; 
   fichaBasica.posObs = "Posto de trabalho interno e comum";
@@ -365,7 +373,7 @@ funcao CadastroFichaBasica();{
   fichaBasica.recAdi = aRecAdi;  
   fichaBasica.emiCar = aEmiCar; 
   fichaBasica.catSef = xCatSef;
-  fichaBasica.datInc = dDataAlt; 
+  fichaBasica.datInc = dDatInc; 
 
   fichaBasica.Executar();
 }
