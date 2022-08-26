@@ -9,7 +9,7 @@ definir funcao RetornarMaiorNumCad();
 definir funcao PreencheVazios();   
 definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
-definir funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);
+definir funcao PostodeTrabalho();
 definir funcao CadastroFichaBasica();
 
 @---- Parâmetros de entrada ----@
@@ -102,7 +102,7 @@ RetornarMaiorNumCad();
 @@
 DefineValores();                                                                
 @@
-PostodeTrabalho(xEstPos, xNumEmp);  
+PostodeTrabalho();  
 @@                                            
 PreencheVazios();    
 @Altera MsgRet caso a entrada não seja válida@                                                           
@@ -226,6 +226,7 @@ funcao DefineValores(); {
 }
 
 funcao VariaveisValorFixo();{
+  xCodFil = 1;
   xEstPos = 2;
   xNumEmp = 1;
   xTipCol = 1; 
@@ -238,14 +239,14 @@ funcao VariaveisValorFixo();{
   xCodMotHsa = 1;  @admissao@
   xCodTmaHes = 1;
   xSalEstHsa = 1; 
-  xCplEstHsa = 1; 
+  xCplEstHsa = 0; 
   xCodEstHsa = 0;
   xCodVinHvi = 10;
   xCatEso = 101;
   xCodEtb = 0;
   xEstCar = 1;
   xIndAdm = 1;
-  xCatSef = 01;
+  xCatSef = 1;
   xApuPonApu = 1;
   xTipAdmHfi = 1;
   xTipCon = 1;
@@ -254,7 +255,7 @@ funcao VariaveisValorFixo();{
   
 
   
-  aEmiCar = "S";  @Impressao de cartão de ponto@ 
+  aEmiCar = "N";  @Impressao de cartão de ponto@ 
   aCodCcu = "1499";
   aApeFun = "Omega" ;
   aRec13s = "N";
@@ -272,7 +273,7 @@ funcao VariaveisValorFixo();{
 
   dDataAlt = dDataAlt + 1;
   dDatInc = dDataAlt;
-  dDatInc = dDatOpc;
+  dDatInc = dDataAlt;
   aHorInc = "12";
 
 }
@@ -327,7 +328,7 @@ funcao ValidarEntrada();{
 }
 
 @@
-funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);{
+funcao PostodeTrabalho();{
   se(aPosTra = "POSTO OMEGA 01")
     xCodFil = 1;
   senao se (aPosTra = "POSTO OMEGA 02")
@@ -352,7 +353,7 @@ funcao CadastroFichaBasica();{
   Definir alfa aDataAlt;
 
   ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");
-  ConverteMascara (1,dDataAlt,aDataAlt,"DD/MM/AAAA");
+  ConverteMascara (3,dDataAlt,aDataAlt,"DD/MM/AAAA");
 
   fichaBasica.numEmp = xNumEmp; 
   fichaBasica.datAdm = dDatAdm; 
@@ -382,8 +383,8 @@ funcao CadastroFichaBasica();{
   fichaBasica.modPag = aModPag; 
   fichaBasica.motPos = 1; 
   fichaBasica.apeFun = aApeFun; 
-  fichaBasica.codSinHsi = 1; 
-  fichaBasica.posObs = "Posto de trabalho do Omega";
+  @fichaBasica.codSinHsi = 1;@ 
+  fichaBasica.posObs = "Omega";
   fichaBasica.tipCon = xTipCon; 
   fichaBasica.tipSalHsa = xTipSalHsa;
   fichaBasica.numCpf = aNumCpf; @alfanumeiroco@ @Aqui@
