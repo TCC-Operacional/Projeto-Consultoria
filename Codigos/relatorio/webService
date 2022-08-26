@@ -21,7 +21,7 @@ definir numero xCodNac; @R023NAC nacionalidade  @
 definir numero xConRho; @Controle de ponto@
 definir numero xEstCar; @estrutura Cargo@
 definir numero xCodFil; @Código da filial mesma do posto@
-definir numero xNumLoc; @ pode ser 115 (produção), 124(RH) ou 130(financeiro) @
+ 
 definir numero xCatEso; @ Código de categoria do colaborador qualquer numero@
 definir numero xCodEtb; @ Código da estabilidade pode ser 0 @
 definir numero xRacCor; @ A definir @
@@ -29,8 +29,7 @@ definir numero xCatSef; @ A definir @
 definir numero xNumCpf; @ A definir @
 definir numero xValSalHsa; @ R038HSA qualquer valor @
 definir numero xCplSalHsa; @ R038HSA - pode ser qualquer numero @
-definir numero xApuPonApu; @ R038APU - pode ser 1 ou 2@
-definir numero xCodSinHsi;  @R014SIn - "1,2,3,4,5"@
+definir numero xApuPonApu; @ R038APU - pode ser 1 ou 2@  
 definir numero xTipSalHsa; @ R038HSA - 1(mensalista), 2(horista) ou 3(diarista)@
 
 definir alfa aNomFun;                                                                           
@@ -53,6 +52,9 @@ definir data dDatAltCcu; @R038HCC data de alteracao do cargo no centro de custo@
 definir alfa aMsgRet;
 definir numero xCodErr; 
 
+definir alfa aMsgRetFicha;
+definir numero xCodErrFicha;
+
 @---- Variáveis com valores fixos ----@
 
 definir numero xNumEmp; @ valor = 1 @
@@ -71,22 +73,29 @@ definir numero xSalEstHsa; @ R038HSA - pode ser 0@
 definir numero xCplEstHsa; @ R038HSA - pode ser 0@
 definir numero xCodEstHsa; @ R076DES  - pode ser 1 @
 definir numero xCodVinHvi; @pode ser qualquer numero@
+definir numero xIndAdm; @Indicativo de Adimissao: 1@
+definir numero aCodSinHsi; 
 
 definir alfa aEmiCar; @ valor = "N" @
-definir alfa aCodCcu; @ 1401 Recursos Humanos @ 
+definir alfa aCodCcu; @ 1499 Recursos Humanos @ 
 definir alfa aApeFun; @ Valor = "AP" @
 definir alfa aRec13s; @ S ou N  decimo terceiro@
 definir alfa aLisRai; @ Lista de Colaborador na rais, S ou N @
 definir alfa aCodFicFmd ; @ R110FIC - pode ser 1@
+definir alfa aNumLoc; @ 1.02.01.01 @
+
 
 definir data dDatInc; @ pode ser a data de hoje  @
 definir data dDatOpc; @data de operacao do fgts @
 definir data dDataAlt;
+definir alfa aHorInc; @ hora da inclusão : DD/MM/AAAA (Time) @
 
 @----------------------------------Main----------------------------------------@
 
 aMsgRet = "";
 xCodErr = 0;
+aMsgRetFicha = "";
+xCodErrFicha = 0;
                                                                         
 @@                                                                        
 RetornarMaiorNumCad();                                                          
@@ -97,7 +106,7 @@ PostodeTrabalho(xEstPos, xNumEmp);
 @@                                            
 PreencheVazios();    
 @Altera MsgRet caso a entrada não seja válida@                                                           
-ValidarEntrada();  
+@ValidarEntrada(); @ 
   
 se (aMsgRet = "") {
   @@
@@ -107,50 +116,62 @@ se (aMsgRet = "") {
 
   InsereFuncionario.ErrorMSG = aResult;
 
-  @Realiza o insert no banco@
-  IniciarTransacao();
-  ExecSQLEx("insert into USU_T_Omega                                           \
-                (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun, \ 
-                USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,    \
-                USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,    \
-                USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,    \
-                USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,    \
-                USU_TabOrg, USU_NumLoc, USU_CodCcu, USU_CatEso, USU_CodEtb,    \
-                USU_TipAdm, USU_TipOpc, USU_DatOpc, USU_ModPag, USU_RecAdi,    \
-                USU_Rec13s, USU_LisRai, USU_RacCor, USU_CatSef, USU_PagSin,    \
-                USU_ApeFun, USU_NumCpf, USU_CodEst, USU_ValSal, USU_CplSal,    \
-                USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			       \
-              values                                                           \
-                (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                    \ 
-                :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		         \ 
-                :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,              \
-                :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                    \
-                :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			       \ 
-                :xTabOrg, :xNumLoc, :aCodCcu, :xCatEso, :xCodEtb,              \
-                :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,           \
-                :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,              \
-                :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,     \
-                :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
-            , xCodErr, aMsgRet);   
-  
-  @Verifica retorno do insert e devolve um código e mensagem para o usuário@
-  se(xCodErr = 0) {   
-    ExecSQL "UPDATE R034FUN set usu_academia = 1                               \
-              WHERE numcad = :xNumCad                                          \
-                AND numemp = :xNumEmp                                          \
-                AND tipcol = :xTipCol";                                                        
-    FinalizarTransacao();
-    aMsgRet = "Funcionário inserido com sucesso!";
-  } senao {
-    DesfazerTransacao();
-    aMsgRet = "Falha ao inserir funcionário...";
-  }
 
-  RetornaWebService();  @Chamada de Função@
-  
-} senao {
-  RetornaWebService();
-}                                                            
+  IniciarTransacao();   
+  ExecSQLEx("UPDATE R034FUN set usu_academia = 1                               \
+            WHERE numcad = :xNumCad                                          \
+              AND numemp = :xNumEmp                                          \
+              AND tipcol = :xTipCol", xCodErrFicha, aMsgRetFicha) ;                                                        
+  FinalizarTransacao();
+
+  se( xCodErrFicha = 0 ){
+
+        @Realiza o insert no banco@
+    IniciarTransacao();
+    ExecSQLEx("insert into USU_T_Omega                                           \
+                  (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun, \ 
+                  USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,    \
+                  USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,    \
+                  USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,    \
+                  USU_EstCar, USU_CodCar, USU_EstPos, USU_PosTra, USU_CodFil,    \
+                  USU_TabOrg, USU_NumLoc, USU_CodCcu, USU_CatEso, USU_CodEtb,    \
+                  USU_TipAdm, USU_TipOpc, USU_DatOpc, USU_ModPag, USU_RecAdi,    \
+                  USU_Rec13s, USU_LisRai, USU_RacCor, USU_CatSef, USU_PagSin,    \
+                  USU_ApeFun, USU_NumCpf, USU_CodEst, USU_ValSal, USU_CplSal,    \
+                  USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			       \
+                values                                                           \
+                  (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                    \ 
+                  :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		         \ 
+                  :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,              \
+                  :aPerPag,'N', :aCotDef, :xConRho, :aVerInt,                    \
+                  :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			       \ 
+                  :xTabOrg, :aNumLoc, :aCodCcu, :xCatEso, :xCodEtb,              \
+                  :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,           \
+                  :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,              \
+                  :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,     \
+                  :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
+              , xCodErr, aMsgRet);
+
+              FinalizarTransacao();
+                
+    
+    @Verifica retorno do insert e devolve um código e mensagem para o usuário@
+    se(xCodErr = 0) {
+      aMsgRet = "Funcionário inserido com sucesso!";
+    } senao {
+      DesfazerTransacao();
+      aMsgRet = "Falha ao inserir funcionário...";
+    }
+
+    RetornaWebService();  @Chamada de Função@
+
+    } senao {
+    RetornaWebService();
+    }
+
+  }senao {
+    aMsgRet = "Falha ao inserir funcionário na R034fun...";
+  }                                                            
 
 @---------------------------------- Funções -----------------------------------@           
     
@@ -174,40 +195,32 @@ funcao RetornarMaiorNumCad(); {
 @Define valores para as variáveis da regra@
 funcao DefineValores(); {                                                       
   @Variáveis numéricas@
-  xTipCon = InsereFuncionario.TipoContrato;
-  xEstCiv = InsereFuncionario.EstadoCivil;
-  xGraIns = InsereFuncionario.GrauInstrucao;
-  xCodNac = InsereFuncionario.Nacionalidade;
-  xConRho = InsereFuncionario.ContadorContrPontoRef;
-  xEstCar = InsereFuncionario.estruturaCargo;
-  xNumLoc = InsereFuncionario.localOrganograma;
-  xCatSef = InsereFuncionario.CategoriaSeflip;
+  
+  xEstCiv = InsereFuncionario.EstadoCivil; @ 1 @
+  xGraIns = InsereFuncionario.GrauInstrucao; @ 9 @
+  xCodNac = InsereFuncionario.Nacionalidade; @ 10 @
+  @xEstCar = InsereFuncionario.estruturaCargo;@  @  @
   xNumCpf = InsereFuncionario.NumeroCpf;
-  xValSalHsa = InsereFuncionario.ValorSalarioHsa;
-  xCplSalHsa = InsereFuncionario.CplSalHsa;
-  xApuPonApu = InsereFuncionario.TipoApuracao;
-  xCodSinHsi = InsereFuncionario.CodSindicatoHsi;
-  xTipSalHsa = InsereFuncionario.TipoSalarioHsa;
-  xTipAdmHfi = InsereFuncionario.TipoAdmissao;
-  xRacCor = InsereFuncionario.RacaCor;
-  aRecAdi =  InsereFuncionario.ReceberAdtoSalario;
+  xValSalHsa = InsereFuncionario.ValorSalarioHsa; @  @
+  xCplSalHsa = InsereFuncionario.CplSalHsa; @@
+  
+  @xRacCor = InsereFuncionario.RacaCor;@ @@
+  
 
   @Variáveis alfanuméricas@  
   aNomFun = InsereFuncionario.NomeColaborador;                               
   aTipSex = InsereFuncionario.sexo;
-  aPerPag = InsereFuncionario.PeriodoPagamento;
-  aCotDef = InsereFuncionario.deficiencia;
-  aVerInt = InsereFuncionario.interjornada;
-  aCodCar = InsereFuncionario.CodCargo;
-  aPosTra = InsereFuncionario.PostoTrabalho;
-  aCodCcu = InsereFuncionario.centroCusto;
-  aPagSin = InsereFuncionario.PagamentoSindicato;
-  aTipOpc = InsereFuncionario.OptanteFGTStipopc;
+  @aPerPag = InsereFuncionario.PeriodoPagamento;@  @@
+  @aCotDef = InsereFuncionario.deficiencia;@ @@
+  @aVerInt = InsereFuncionario.interjornada;@
+  aPosTra = InsereFuncionario.PostoTrabalho; @ PADRAO @
+  
+  
   
   @Variáveis do tipo data@
-  dDatAdm = InsereFuncionario.DataAdmissao;                                  
+  dDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
   dDatNas = InsereFuncionario.DataNascimento;
-  dDatAltCcu = InsereFuncionario.DataAlteracaoCcu; 
+  @dDatAltCcu = InsereFuncionario.DataAlteracaoCcu;@ @ 05/08/2022 @
 
   VariaveisValorFixo();
 }
@@ -219,34 +232,48 @@ funcao VariaveisValorFixo();{
   xAcademia = 1; 
   xCodTap = 1; 
   xSitAfa = 1; 
-  xCodEsc = 3; 
+  xCodEsc = 1; 
   xTabOrg = 1; 
   
   xCodMotHsa = 1;  @admissao@
   xCodTmaHes = 1;
   xSalEstHsa = 1; 
   xCplEstHsa = 1; 
-  xCodEstHsa = 1;
-  xCodVinHvi = 15;
-  xCatEso = 9999;
-  xCodEtb = 1;
+  xCodEstHsa = 0;
+  xCodVinHvi = 10;
+  xCatEso = 101;
+  xCodEtb = 0;
   xEstCar = 1;
-  
-  aEmiCar = "N";  @Impressao de cartão de ponto@ 
-  aCodCcu = "11";
-  aApeFun = "AP" ;
-  aRec13s = "N";
-  aLisRai = "N";
-  aTipOpc = "S";
-  aModPag = "D";
-  aCodFicFmd = "N";
+  xIndAdm = 1;
+  xCatSef = 01;
+  xApuPonApu = 1;
+  xTipAdmHfi = 1;
+  xTipCon = 1;
+  xTipSalHsa = 1;
+  xCodSinHsi = 1;
   
 
-  DataHoje(dDatInc);
-  DataHoje(dDatOpc);
+  
+  aEmiCar = "S";  @Impressao de cartão de ponto@ 
+  aCodCcu = "1499";
+  aApeFun = "Omega" ;
+  aRec13s = "N";
+  aLisRai = "N";
+  aTipOpc = "N";
+  aModPag = "D";
+  aCodFicFmd = "CANCELA";
+  aNumLoc = "1.02.01.01";
+  aPagSin = "N";
+  aRecAdi = "N";
+  aCodCar = "00001";
+  
+  
   DataHoje(dDataAlt);
 
   dDataAlt = dDataAlt + 1;
+  dDatInc = dDataAlt;
+  dDatInc = dDatOpc;
+  aHorInc = "12";
 
 }
                                               
@@ -258,10 +285,7 @@ funcao PreencheVazios(); {
     xEstCiv = 1; @Solteiro@
 
   se ((xConRho < 1) ou (xConRho > 4))                 
-    xConRho = 4; 
-
-  se ((xNumLoc <> 115) e (xNumLoc <> 124) e (xNumLoc <> 130))                 
-    xNumLoc = 115; 
+    xConRho = 4;  
 
   se (((xCodNac < 20) ou (xCodNac > 25)) e (((xCodNac < 30) ou (xCodNac > 39))) e (xCodNac > 33))
     se(((xCodNac < 41) ou (xCodNac > 43)) e (xCodNac <> 45) e (xCodNac <> 48) e (xCodNac <> 49) e (xCodNac <> 50) e (xCodNac <> 10)){
@@ -278,17 +302,17 @@ funcao ValidarEntrada();{
   
   se (vTam < 5){
     xCodErr = 1;
-    aMsgRet = "O nome precisa ter 6 ou mais caracteres!";
+    aMsgRet = "O nome precisa ter 5 ou mais caracteres!";
   } 
 
   se ((aTipSex <> "M") e (aTipSex <> "F")){
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + "Digite M para Masculino e F para Feminino";
+    aMsgRet = aMsgRet + aQuebraLinha + "Digite M para Masculino e F para Feminino para o tipo de sexo";
   } 
   
   se ((aPerPag <> "M") e (aPerPag <> "S") e (aPerPag <> "Q")){
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + " Digite M para Mensal, S para Semanal e Q para Quinzenal";
+    aMsgRet = aMsgRet + aQuebraLinha + " Digite M para Mensal, S para Semanal e Q para Quinzenal para periodo de pagamento";
   } 
   
   se ((aCotDef <> "S") e (aCotDef <> "N")){
@@ -308,6 +332,11 @@ funcao PostodeTrabalho(numero xEstPosto, numero xNumEmpresa);{
     xCodFil = 1;
   senao se (aPosTra = "POSTO OMEGA 02")
     xCodFil = 2;
+  senao {
+    xCodFil = 1;
+    aPosTra = "POSTO OMEGA 01";
+  }
+
 }
 
 @Define os valores dos parâmetros de saída@
@@ -319,14 +348,11 @@ funcao RetornaWebService(); {
 
 @@
 funcao CadastroFichaBasica();{
-  Definir alfa aNumLoc;
   Definir alfa aNumCpf;
-  @Definir alfa aDataAlt;@
-
-  IntParaAlfa (xNumLoc,aNumLoc);
+  Definir alfa aDataAlt;
 
   ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");
-  @ConverteMascara (1,dDataAlt,aDataAlt,"DD/MM/AAAA");@
+  ConverteMascara (1,dDataAlt,aDataAlt,"DD/MM/AAAA");
 
   fichaBasica.numEmp = xNumEmp; 
   fichaBasica.datAdm = dDatAdm; 
@@ -343,20 +369,21 @@ funcao CadastroFichaBasica();{
   fichaBasica.tipOpe = "I"; 
   fichaBasica.codVinHvi = xCodVinHvi; 
   fichaBasica.admeSo = 1; 
-  /*fichaBasica.datAltCcu = aDatAltCcu; @alfanumeiroco@*/
+  fichaBasica.datAltCcu = aDataAlt; @alfanumeiroco@
   fichaBasica.conRho = xConRho; 
-  fichaBasica.posTra = aPosTra; 
+  @fichaBasica.posTra = aPosTra;@
+  fichaBasica.posTra = "PADRAO"; 
   fichaBasica.numCad = xNumCad;  
   fichaBasica.apuPonApu = xApuPonApu; 
-  fichaBasica.codMotHca = xCodMotHsa; 
+  fichaBasica.codMotHca = 1; 
   fichaBasica.codTmaHes = xCodTmaHes; 
   fichaBasica.tipAdmHfi = xTipAdmHfi; 
   fichaBasica.nomFun = aNomFun;
   fichaBasica.modPag = aModPag; 
   fichaBasica.motPos = 1; 
   fichaBasica.apeFun = aApeFun; 
-  fichaBasica.codSinHsi = xCodSinHsi; 
-  fichaBasica.posObs = "Posto de trabalho interno e comum";
+  fichaBasica.codSinHsi = 1; 
+  fichaBasica.posObs = "Posto de trabalho do Omega";
   fichaBasica.tipCon = xTipCon; 
   fichaBasica.tipSalHsa = xTipSalHsa;
   fichaBasica.numCpf = aNumCpf; @alfanumeiroco@ @Aqui@
@@ -373,7 +400,15 @@ funcao CadastroFichaBasica();{
   fichaBasica.recAdi = aRecAdi;  
   fichaBasica.emiCar = aEmiCar; 
   fichaBasica.catSef = xCatSef;
-  fichaBasica.datInc = dDatInc; 
+  fichaBasica.datInc = dDatInc;
+  fichaBasica.DatNas = dDatNas;
 
+  /*
+  fichaBasica.indAdm = xIndAdm;
+  fichaBasica.horInc = aHorInc;
+  */
+
+  fichaBasica.ModoExecucao = 1;
   fichaBasica.Executar();
+
 }
