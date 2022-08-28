@@ -1,6 +1,7 @@
 @---- Webservice ----@
 definir interno.com.senior.g5.rh.fp.fichaBasica.FichaBasica_6 fichaBasica;
-definir alfa aResult; 
+definir alfa aResult;
+
 
 @---- Funções ----@
 definir funcao VariaveisValorFixo();
@@ -11,6 +12,7 @@ definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
 definir funcao PostodeTrabalho();
 definir funcao CadastroFichaBasica();
+definir funcao VerificarCadastroR024FUN();
 
 @---- Parâmetros de entrada ----@
 definir numero xNumCad;
@@ -108,7 +110,7 @@ PostodeTrabalho();
 @@                                            
 PreencheVazios();    
 @Altera MsgRet caso a entrada não seja válida@                                                           
-@ValidarEntrada();@  
+ValidarEntrada();  
   
 se (aMsgRet = "") {
   @ chama a função que cadastra na R034FUN @
@@ -117,18 +119,24 @@ se (aMsgRet = "") {
   aResult = fichaBasica.erroExecucao;
 
   InsereFuncionario.ErrorMSG = aResult;
-  
-  IniciarTransacao();   
-  ExecSQLEx("UPDATE R034FUN set usu_academia = 1                               \
-            WHERE numcad = :xNumCad                                          \
-              AND numemp = :xNumEmp                                          \
-              AND tipcol = :xTipCol", xCodErrFicha, aMsgRetFicha) ;                                                        
-  
-  
 
-  @ InsereFuncionario.ErrorMSG = aMsgRet; @
-  se ((xCodErrFicha = 0) e (aResult = "")) {
-    FinalizarTransacao();
+  aMsgRet = aResult;
+  
+  VerificarCadastroR024FUN();                                                       
+
+  se ((xCodErrFicha = 0) e (aMsgRet = "") ) {
+
+
+
+    IniciarTransacao();   
+    ExecSQL "UPDATE R034FUN set usu_academia = 1                               \
+              WHERE numcad = :xNumCad                                          \
+                AND numemp = :xNumEmp                                          \
+                AND tipcol = :xTipCol" ;
+    FinalizarTransacao(); 
+
+
+    
     @Realiza o insert na USU_T_Omega @
     IniciarTransacao();
     ExecSQLEx("insert into USU_T_Omega                                           \
@@ -169,7 +177,6 @@ se (aMsgRet = "") {
 
   
 } senao {
-  DesfazerTransacao();
   RetornaWebService();
 }                                                            
 
@@ -243,7 +250,7 @@ funcao VariaveisValorFixo();{
   xCplEstHsa = 0; 
   xCodEstHsa = 0;
   xCodVinHvi = 10;
-  xCatEso = 101;
+  xCatEso = 9999; @101;@
   xCodEtb = 0;
   xEstCar = 1;
   xIndAdm = 1;
@@ -403,8 +410,8 @@ funcao CadastroFichaBasica();{
   fichaBasica.cateSo = xCatEso; 
   fichaBasica.tipOpe = "I"; 
   fichaBasica.codVinHvi = xCodVinHvi; 
-  fichaBasica.admeSo = 1; 
-  fichaBasica.datAltCcu = aDataAlt; @alfanumeiroco@
+  @fichaBasica.admeSo = 1;@
+  @fichaBasica.datAltCcu = aDataAlt;@ @alfanumeiroco@
   fichaBasica.conRho = xConRho; 
   @fichaBasica.posTra = aPosTra;@
   fichaBasica.posTra = "PADRAO"; 
@@ -430,20 +437,20 @@ funcao CadastroFichaBasica();{
   fichaBasica.cplSalHsa = xCplSalHsa; @decimal@
   fichaBasica.tipApo = 1 ;@ enum : 1-Saúde, 2-Pensão , 3-Solidariedade @
   fichaBasica.codNac = xCodNac; 
-  fichaBasica.salEstHsa = xSalEstHsa;  @decimal@
-  fichaBasica.cplEstHsa = xCplEstHsa; @decimal@
+  @fichaBasica.salEstHsa = xSalEstHsa;@  @decimal@
+  @fichaBasica.cplEstHsa = xCplEstHsa;@ @decimal@
   fichaBasica.recAdi = aRecAdi;  
   fichaBasica.emiCar = aEmiCar; 
   fichaBasica.catSef = xCatSef;
   fichaBasica.datInc = dDatInc;
   @fichaBasica.DatNas = dDatNas;@
   fichaBasica.codMotHsa = xCodMotHsa;
-  fichaBasica.conTovHlo = "N";
-  fichaBasica.conTosHlo = "N";
-  fichaBasica.locTraHlo = "1.02.01.01";
+  @fichaBasica.conTovHlo = "N";@
+  @fichaBasica.conTosHlo = "N";@
+  @fichaBasica.locTraHlo = "1.02.01.01";@
   fichaBasica.codMotHca = 1;
-  fichaBasica.claSalHsa = "M"; @clasee hsa@
-  fichaBasica.nivSalHsa = "1"; @ nivel sal @
+  /*fichaBasica.claSalHsa = "M"; @clasee hsa@
+  fichaBasica.nivSalHsa = "1"; @ nivel sal @ */
   fichaBasica.PerPag = "M";
   fichaBasica.Rec13s = "N";
   fichaBasica.racCor = xRacCor; @1-branca, 2- preta, 3-Amarela, 4-Parda, 5-Indigena@
@@ -458,5 +465,32 @@ funcao CadastroFichaBasica();{
   fichaBasica.ModoExecucao = 1;
   fichaBasica.Executar();
   
+
+}
+
+@ Funcao que verifica se o cadastro foi feito pelo fichabasica6 @
+funcao VerificarCadastroR024FUN();{
+  xCodErrFicha = 0;
+
+  Definir cursor cur_r034fun;
+
+  cur_r034fun.SQL "select nomfun from r034fun \
+                   WHERE numcad = :xNumCad                                          \
+                   AND numemp = :xNumEmp                                          \
+                   AND tipcol = :xTipCol";
+
+@ Definir o SQl que  será executado  @
+cur_r034fun.AbrirCursor();
+ 
+@Verifica se o cargo foi achado para ser atribuido ao valor aTituloCargo@ 
+Se (cur_r034fun.achou){
+	xCodErrFicha = 0;
+  
+} senao {
+  aMsgRet = aMsgRet + " Cadastro não foi feito em R034FUN, portando cadastro encerrado para evitar inconsistencia"; 
+}
+	
+cur_r034fun.FecharCursor();
+
 
 }
