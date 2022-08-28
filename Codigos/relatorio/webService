@@ -4,6 +4,7 @@ definir alfa aResult;
 
 
 @---- Funções ----@
+definir funcao CadastroFuncionario();
 definir funcao VariaveisValorFixo();
 definir funcao DefineValores();
 definir funcao RetornarMaiorNumCad();                                                 
@@ -99,7 +100,7 @@ definir alfa aHorInc; @ hora da inclusão : DD/MM/AAAA (Time) @
 
 xCodErr = 0;
 aMsgRetFicha = "";
-xCodErrFicha = 0;
+
                                                                         
 @@                                                                        
 RetornarMaiorNumCad();                                                          
@@ -112,7 +113,75 @@ PreencheVazios();
 @Altera MsgRet caso a entrada não seja válida@                                                           
 ValidarEntrada();  
   
+
+
+
+xCodErrFicha = 1;
+xLimite = xNumCad + 5;
+
 se (aMsgRet = "") {
+  enquanto ((xNumCad < xLimite) e (xCodErrFicha = 1)){
+    CadastroFuncionario();
+  }
+  se((xNumCad = xLimite) e (xCodErrFicha = 1)){
+    aMsgRet = "Não é permitido passar o registro de numero 1999";
+    xCodErr = 1;
+  }
+}
+
+RetornaWebService();  @Chamada de Função@
+
+
+
+@---------------------------------- Funções -----------------------------------@           
+
+funcao RetornarMaiorNumCad(); {      @estava dando problema no sistema da senior apesar de estar certinho@                                             
+  definir cursor c_usu_t_omega;        @o erro acontecia no java da senior quando fechava o cursor@
+  
+  c_usu_t_omega.SQL "select usu_numcad from usu_t_omega where 0 = 1 union      \
+                     select max(usu_numcad) from usu_t_omega                   \
+                      where usu_numcad < 2000";                                
+  
+  c_usu_t_omega.AbrirCursor();
+  
+  se (c_usu_t_omega.Achou)
+    xNumCad = c_usu_t_omega.usu_numcad + 1;
+  senao
+    xNumCad = 1000;
+  
+  c_usu_t_omega.FecharCursor();
+} 
+
+
+/*funcao RetornarMaiorNumCad(); {
+
+  Definir alfa c_usu_t_omega;
+  Definir alfa aSQLc_usu_t_omega; 
+
+  aSQLc_usu_t_omega = "select max(usu_numcad) as NumCad from usu_t_omega                   \
+                       where usu_numcad < 2000";
+
+
+  SQL_Criar(c_usu_t_omega);
+  SQL_UsarAbrangencia(c_usu_t_omega, 0);
+  SQL_UsarSQLSenior2(c_usu_t_omega, 0);
+  SQL_DefinirComando(c_usu_t_omega, aSQLc_usu_t_omega);
+
+  SQL_AbrirCursor(c_usu_t_omega);
+
+  se(SQL_EOF(c_usu_t_omega) = 0){
+    SQL_RetornarInteiro(c_usu_t_omega, "NumCad", xNumCad);
+    xNumCad = xNumCad + 1;
+  } senao {
+    xNumCad = 1000;
+  }
+
+  SQL_FecharCursor(c_usu_t_omega);
+  SQL_Destruir(c_usu_t_omega);
+}*/
+
+funcao CadastroFuncionario();{
+
   @ chama a função que cadastra na R034FUN @
   CadastroFichaBasica();
   
@@ -122,7 +191,7 @@ se (aMsgRet = "") {
 
   aMsgRet = aResult;
   
-  VerificarCadastroR024FUN();                                                       
+  VerificarCadastroR024FUN();                                                        
 
   se ((xCodErrFicha = 0) e (aMsgRet = "") ) {
 
@@ -171,33 +240,12 @@ se (aMsgRet = "") {
       DesfazerTransacao();
       aMsgRet = "Falha ao inserir funcionário...";
     }
+  }senao {
+    aMsgRet = "";
+    xNumCad  = xNumCad + 1;
   }
+}
 
-  RetornaWebService();  @Chamada de Função@
-
-  
-} senao {
-  RetornaWebService();
-}                                                            
-
-@---------------------------------- Funções -----------------------------------@           
-    
-funcao RetornarMaiorNumCad(); {                                                 
-  definir cursor c_usu_t_omega;
-  
-  c_usu_t_omega.SQL "select usu_numcad from usu_t_omega where 0 = 1 union      \
-                     select max(usu_numcad) from usu_t_omega                   \
-                      where usu_numcad < 2000";                                
-  
-  c_usu_t_omega.AbrirCursor();
-  
-  se (c_usu_t_omega.Achou)
-    xNumCad = c_usu_t_omega.usu_numcad + 1;
-  senao
-    xNumCad = 1000;
-  
-  c_usu_t_omega.FecharCursor();
-}    
     
 @Define valores para as variáveis da regra@
 funcao DefineValores(); {                                                       
@@ -310,7 +358,7 @@ funcao ValidarEntrada();{
   
   se (vTam < 5){
     xCodErr = 1;
-    aMsgRet = "O nome precisa ter 5 ou mais caracteres!";
+    aMsgRet = "O nome precisa ter 5 ou mais caracteres! ";
   } 
 
   se ((aTipSex <> "M") e (aTipSex <> "F")){
@@ -413,8 +461,8 @@ funcao CadastroFichaBasica();{
   @fichaBasica.admeSo = 1;@
   @fichaBasica.datAltCcu = aDataAlt;@ @alfanumeiroco@
   fichaBasica.conRho = xConRho; 
-  @fichaBasica.posTra = aPosTra;@
-  fichaBasica.posTra = "PADRAO"; 
+  fichaBasica.posTra = aPosTra;
+  @fichaBasica.posTra = "PADRAO";@ 
   fichaBasica.numCad = xNumCad;  
   fichaBasica.apuPonApu = xApuPonApu; 
   fichaBasica.codTmaHes = xCodTmaHes; 
@@ -470,7 +518,7 @@ funcao CadastroFichaBasica();{
 
 @ Funcao que verifica se o cadastro foi feito pelo fichabasica6 @
 funcao VerificarCadastroR024FUN();{
-  xCodErrFicha = 0;
+  xCodErrFicha = 1;
 
   Definir cursor cur_r034fun;
 
