@@ -28,7 +28,7 @@ definir numero xCatEso; @ Código de categoria do colaborador qualquer numero@
 definir numero xCodEtb; @ Código da estabilidade pode ser 0 @
 definir numero xRacCor; @ A definir @
 definir numero xCatSef; @ A definir @
-definir numero xNumCpf; @ A definir @
+definir alfa aNumCpf; @ A definir @
 definir numero xValSalHsa; @ R038HSA qualquer valor @
 definir numero xCplSalHsa; @ R038HSA - pode ser qualquer numero @
 definir numero xApuPonApu; @ R038APU - pode ser 1 ou 2@  
@@ -169,7 +169,7 @@ se (aMsgRet = "") {
                    :xTabOrg, :xNumLoc, :aCodCcu, 9999, :xCodEtb,                  \
                    :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,           \
                    :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,              \
-                   :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,     \
+                   :aApeFun, :aNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,     \
                    :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
               , xCodErr, aMsgRet);
                 
@@ -216,7 +216,7 @@ funcao DefineValores(); {
   aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
   aGrauInstrucao = InsereFuncionario.GrauInstrucao; @ 9 @
   aNacionalidade = InsereFuncionario.Nacionalidade; @ 10 @
-  xNumCpf = InsereFuncionario.NumeroCpf;
+  aNumCpf = InsereFuncionario.NumeroCpf;
   xValSalHsa = InsereFuncionario.ValorSalario; @  @
   xCplSalHsa = InsereFuncionario.ComplementoSalario; @@
   aRacaCor = InsereFuncionario.RacaCor; @@
@@ -473,10 +473,10 @@ funcao RetornaWebService(); {
 @@
 funcao CadastroFichaBasica();{
   
-  Definir alfa aNumCpf;
+  @Definir alfa aNumCpf;@
   Definir alfa aDataAlt;
 
-  ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");
+  @ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");@
   ConverteMascara (3,dDataAlt,aDataAlt,"DD/MM/AAAA");
 
   fichaBasica.numEmp = xNumEmp; 
