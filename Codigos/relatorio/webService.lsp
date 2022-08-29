@@ -7,7 +7,7 @@ definir alfa aResult;
 definir funcao VariaveisValorFixo();
 definir funcao DefineValores();
 definir funcao RetornarMaiorNumCad();                                                 
-definir funcao PreencheVazios();   
+definir funcao AssociarValores();   
 definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
 definir funcao PostodeTrabalho();
@@ -36,7 +36,7 @@ definir numero xTipSalHsa; @ R038HSA - 1(mensalista), 2(horista) ou 3(diarista)@
 
 definir alfa aNomFun;                                                                           
 definir alfa aTipSex;     
-definir alfa aPerPag;
+definir alfa aPerPag; 
 definir alfa aCotDef;
 definir alfa aVerInt;
 definir alfa aCodCar;
@@ -45,6 +45,14 @@ definir alfa aTipOpc; @ Optante do FGTS S ou N @
 definir alfa aModPag; @ A definir definirdo por nos @
 definir alfa aRecAdi; @ S ou N para adiantamento de salário@
 definir alfa aPagSin; @ pagamento de sindicato "S" ou "N" @
+
+@-------------Parametros do BPM a baixo---------------@
+definir alfa aEstadoCivil;
+definir alfa aGrauInstrucao;
+definir alfa aNacionalidade;
+definir alfa aRacaCor;
+
+@-------------Parametros do BPM a cima---------------@
 
 definir data dDatAdm; 
 definir data dDatNas;
@@ -102,13 +110,15 @@ aMsgRetFicha = "";
 xCodErrFicha = 0;
                                                                         
 @@                                                                        
-RetornarMaiorNumCad();                                                          
+RetornarMaiorNumCad();
+@@
+VariaveisValorFixo();                                                          
 @@
 DefineValores();                                                                
 @@
 PostodeTrabalho();  
 @@                                            
-PreencheVazios();    
+AssociarValores();    
 @Altera MsgRet caso a entrada não seja válida@                                                           
 ValidarEntrada();  
   
@@ -203,14 +213,13 @@ funcao RetornarMaiorNumCad(); {
 funcao DefineValores(); {                                                       
   @Variáveis numéricas@
   
-  xEstCiv = InsereFuncionario.EstadoCivil; @ 1 @
-  xGraIns = InsereFuncionario.GrauInstrucao; @ 9 @
-  xCodNac = InsereFuncionario.Nacionalidade; @ 10 @
+  aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
+  aGrauInstrucao = InsereFuncionario.GrauInstrucao; @ 9 @
+  aNacionalidade = InsereFuncionario.Nacionalidade; @ 10 @
   xNumCpf = InsereFuncionario.NumeroCpf;
   xValSalHsa = InsereFuncionario.ValorSalario; @  @
   xCplSalHsa = InsereFuncionario.ComplementoSalario; @@
-  
-  xRacCor = InsereFuncionario.RacaCor; @@
+  aRacaCor = InsereFuncionario.RacaCor; @@
   
 
   @Variáveis alfanuméricas@  
@@ -228,7 +237,6 @@ funcao DefineValores(); {
   dDatNas = InsereFuncionario.DataNascimento;
   @dDatAltCcu = InsereFuncionario.DataAlteracaoCcu;@ @ 05/08/2022 @
 
-  VariaveisValorFixo();
 }
 
 funcao VariaveisValorFixo();{
@@ -248,7 +256,7 @@ funcao VariaveisValorFixo();{
   xCodTmaHes = 1;
   xSalEstHsa = 1; 
   xCplEstHsa = 0; 
-  xCodEstHsa = 0;
+  xCodEstHsa = 1;
   xCodVinHvi = 10;
   xCatEso = 9999; @101;@
   xCodEtb = 0;
@@ -260,7 +268,7 @@ funcao VariaveisValorFixo();{
   xTipCon = 1;
   xTipSalHsa = 1;
   xCodSinHsi = 1;
-  
+  xConRho = 4;
 
    
   aCodCcu = "11"; @"1499";@
@@ -285,7 +293,8 @@ funcao VariaveisValorFixo();{
 
 }
                                               
-funcao PreencheVazios(); {                                                      
+funcao PreencheVazios(); {
+  /*                                                      
   se((xTipCon < 1) ou (xTipCon > 13))                 
     xTipCon = 1; @Trabalhando@
 
@@ -298,7 +307,114 @@ funcao PreencheVazios(); {
   se (((xCodNac < 20) ou (xCodNac > 25)) e (((xCodNac < 30) ou (xCodNac > 39))) e (xCodNac > 33))
     se(((xCodNac < 41) ou (xCodNac > 43)) e (xCodNac <> 45) e (xCodNac <> 48) e (xCodNac <> 49) e (xCodNac <> 50) e (xCodNac <> 10)){
       xCodNac = 10;
+  }*/
+
+  se (aPerPag <> "") {
+    se(aPerPag = "Mensal"){
+      aPerPag = "M";
+    } senao se (aPerPag = "Semanal"){
+      aPerPag = "S";
+    } senao se (aPerPag = "Quinzenal"){
+      aPerPag = "Q";
+    }
   }
+
+  se (aCodCar <> "") {
+    se (aCodCar = "Diretor Presidente") {
+      aCodCar = "1";
+    } senao se(aCodCar = "Gerente Financeiro") {
+      aCodCar = "10"
+    } senao se(aCodCar = "Auxiliar Administrativo") {
+      aCodCar = "11"
+    } senao se(aCodCar = "Expedidor") {
+      aCodCar = "12"
+    } senao se(aCodCar = "Analista financeiro") {
+      aCodCar = "13"
+    } senao se(aCodCar = "Motorista") {
+      aCodCar = "14"
+    } senao se(aCodCar = "Contador") {
+      aCodCar = "15"
+    }
+  }
+
+  se (aVerInt <> "") {
+    se (aVerInt = "Alertar") {
+      aVerInt = "A";
+    } senao se (aVerInt = "Bloquear") {
+      aVerInt = "B";
+    } senao se (aVerInt = "Ignorar") {
+      aVerInt = "I";
+    }
+  }
+
+  se (aEstadoCivil <> "") {
+    se (aEstadoCivil = "Solteiro") {
+      xEstCiv = 1;
+    } senao se (aEstadoCivil = "Casado") {
+      xEstCiv = 2;
+    } senao se (aEstadoCivil = "Divorciado") {
+      xEstCiv = 3;
+    } senao se (aEstadoCivil = "Viúvo") {
+      xEstCiv = 4;
+    }
+  }
+
+  se (aGrauInstrucao <> "") {
+    se (aGrauInstrucao = "Analfabeto") {
+      xGraIns = 1;
+    } senao se (aGrauInstrucao = "1º Grau Completo") {
+      xGraIns = 5;
+    } senao se (aGrauInstrucao = "2º Grau Incompleto") {
+      xGraIns = 6;
+    } senao se (aGrauInstrucao = "2º Grau Incompleto") {
+      xGraIns = 7;
+    } senao se (aGrauInstrucao = "Superior Incompleto") {
+      xGraIns = 8;
+    } senao se (aGrauInstrucao = "Superior Completo") {
+      xGraIns = 9;
+    } senao se (aGrauInstrucao = "Pós-Graduação") {
+      xGraIns = 10;
+    }
+  }
+
+  se (aNacionalidade <> "") {
+    se (aNacionalidade = "Brasileiro")
+      xCodNac = 10;
+    senao se (aNacionalidade = "Brasileiro Naturalizado")
+      xCodNac = 20;
+    senao se (aNacionalidade = "Argentino")
+      xCodNac = 21;
+    senao se (aNacionalidade = "Boliviano")
+      xCodNac = 22;
+    senao se (aNacionalidade = "Chileno")
+      xCodNac = 23;
+    senao se (aNacionalidade = "Paraguaio")
+      xCodNac = 24;
+    senao se (aNacionalidade = "Uruguaio")
+      xCodNac = 25;
+    senao se (aNacionalidade = "Alemão")
+      aCodNac = 30;
+    senao se (aNacionalidade = "Belga")
+      xCodNac = 31;
+  }
+
+  se (aRacaCor <> "") {
+    se (aRacaCor = "Não Informado") {
+      xRacCor = 0;
+    } senao se(aRacaCor = "Branca") {
+      xRacCor = 1;
+    } senao se(aRacaCor = "Preta/Negra") {
+      xRacCor = 2;
+    } senao se(aRacaCor = "Amarela") {
+      xRacCor = 3;
+    } senao se(aRacaCor = "parda") {
+      xRacCor = 4;
+    } senao se(aRacaCor = "Indígena") {
+      xRacCor = 5;
+    }
+  }
+
+
 }
 
 @ A variavel aMsgRet retorna caso uma das entradas não seja valida @
@@ -356,39 +472,6 @@ funcao RetornaWebService(); {
 
 @@
 funcao CadastroFichaBasica();{
-
-  /*
-  @ Realiza o insert na USU_T_Omega @
-  IniciarTransacao();
-  ExecSQLEx("insert into R034FUN                                               \
-                (numemp, tipcol, numcad, usu_Academia, NomFun,                 \
-                 CodTap, SitAfa, CodEsc, TipCon, TipSex, EstCiv,               \  
-                 GraIns, DatNas, CodNac, PerPag, EmiCar, CotDef,               \ 
-                 ConRho, VerInt, EstCar, CodCar, EstPos, PosTra,               \
-                 CodFil, TabOrg, NumLoc, CodCcu, CatEso, CodEtb,               \
-                 TipAdm, TipOpc, DatOpc, ModPag, RecAdi, Rec13s,               \
-                 LisRai, RacCor, CatSef, PagSin, ApeFun, NumCpf,               \ 
-                 CodEst, ValSal, CplSal, DatInc, CodVin, CodMot,               \      
-                 CodTma)                                                       \
-              values                                                           \
-                (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                    \ 
-                 :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		                 \ 
-                 :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,             \
-                 :aPerPag, 'N', :aCotDef, 4, :aVerInt,                         \
-                 :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			       \ 
-                 :xTabOrg, :xNumLoc, :aCodCcu, 9999, :xCodEtb,                 \
-                 :xTipAdmHfi, :aTipOpc, :dDatOpc, :aModPag, :aRecAdi,          \
-                 :aRec13s, :aLisRai, :xRacCor, :xCatSef, :aPagSin,             \
-                 :aApeFun, :xNumCpf, :xCodEstHsa, :xValSalHsa, :xCplSalHsa,    \
-                 :dDatInc, :xCodVinHvi, :xCodMotHsa, :xCodTmaHes)"
-            , xCodErrFicha, aMsgRetFicha);
-  se (xCodErrFicha = 0) {
-    FinalizarTransacao();
-  } senao {
-    aMsgRet = "Falha ao inserir funcionário na R034fun...";
-    DesfazerTransacao();
-  } */
-
   
   Definir alfa aNumCpf;
   Definir alfa aDataAlt;
