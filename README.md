@@ -52,10 +52,13 @@ Criando posto de trabalho e as características colocadas para ser o local que a
 
 ### Relatório
 
-![image](https://user-images.githubusercontent.com/44294260/185628327-f6ca331f-99af-42f6-b991-66fc4b8a417a.png)
+![image](https://user-images.githubusercontent.com/61790986/187301030-1c51459e-b8b1-496b-a09d-2d9b699ec0b4.png)
 
 **Resultado:**
-![image](https://user-images.githubusercontent.com/44294260/185628204-652f4c41-7d27-429b-9b0a-989c222fa164.png)
+
+![image](https://user-images.githubusercontent.com/61790986/187301448-76637ecd-6a1e-4f1a-9b4b-bf7843b00fb0.png)
+![image](https://user-images.githubusercontent.com/61790986/187301621-7b7686b5-226d-4a11-95c4-416810896b9f.png)
+
 
 
 Veja <a href="https://github.com/TCC-Operacional/Projeto-Consultoria/blob/main/Codigos/relatorio.lsp">aqui</a> o código criado na **Seção Detalhe_1, Antes de imprimir**.
@@ -69,11 +72,11 @@ recursos → gerador de telas
 
 **Interface, formulário e ação criados**
 
-![image](https://user-images.githubusercontent.com/44294260/185626951-3a0f7983-afa3-42c6-93fe-72eed8f389e9.png)
+![image](https://user-images.githubusercontent.com/61790986/187301937-087cc1d2-6149-467e-9516-606151da5070.png)
 
-![image](https://user-images.githubusercontent.com/44294260/185627260-f324b576-b4ad-4d7a-8236-99b795a37d27.png)
+![image](https://user-images.githubusercontent.com/61790986/187302932-439def24-8fa6-4d64-838c-9725a3d04876.png)
+Tabela criada na interface com todos os campos da nossa USU_T_Omega.
 
-![image](https://user-images.githubusercontent.com/44294260/185627491-5425f247-85d9-48c7-a2a8-24c311414989.png)
 
 **Em *Regras* da tabela Omega:**
 
@@ -83,9 +86,14 @@ ExecutaRelatorio("FPRE188.COL", "N");
 
 **Em  Formulários X-Window:**
 
-![image](https://user-images.githubusercontent.com/44294260/185627757-5e77e903-be42-4644-88a6-fd6c2cd01e69.png)
+![image](https://user-images.githubusercontent.com/61790986/187303093-c33ce475-45e7-452a-9f64-29ff7e9c3d15.png)
 
-![image](https://user-images.githubusercontent.com/44294260/185628073-e2e72942-e62b-4c90-bfae-78655ea40af6.png)
+**Resultado:**
+
+![image](https://user-images.githubusercontent.com/61790986/187303517-9fda8ef4-5ccf-4522-958c-bc2c44e1facb.png)
+![image](https://user-images.githubusercontent.com/61790986/187303570-f4c40a4f-1486-4038-9a97-9ae3b3571b6e.png)
+
+
 
 
 
