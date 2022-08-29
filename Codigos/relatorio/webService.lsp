@@ -12,7 +12,7 @@ definir funcao RetornaWebService();
 definir funcao ValidarEntrada();
 definir funcao PostodeTrabalho();
 definir funcao CadastroFichaBasica();
-definir funcao VerificarCadastroR024FUN();
+definir funcao VerificarCadastroR034FUN();
 
 @---- Parâmetros de entrada ----@
 definir numero xNumCad;
@@ -132,7 +132,7 @@ se (aMsgRet = "") {
 
   aMsgRet = aResult;
   
-  VerificarCadastroR024FUN();                                                       
+  VerificarCadastroR034FUN();                                                       
 
   se ((xCodErrFicha = 0) e (aMsgRet = "") ) {
 
@@ -149,8 +149,8 @@ se (aMsgRet = "") {
     
     @Realiza o insert na USU_T_Omega @
     IniciarTransacao();
-    ExecSQLEx("insert into USU_T_Omega                                           \
-                  (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun, \ 
+    ExecSQLEx("insert into USU_T_Omega                                            \
+                  (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia, USU_NomFun,  \ 
                    USU_DatAdm, USU_CodTap, USU_SitAfa, USU_CodEsc, USU_TipCon,    \
                    USU_TipSex, USU_EstCiv, USU_GraIns, USU_DatNas, USU_CodNac,    \
                    USU_PerPag, USU_EmiCar, USU_CotDef, USU_ConRho, USU_VerInt,    \
@@ -162,7 +162,7 @@ se (aMsgRet = "") {
                    USU_DatInc, USU_CodVin, USU_CodMot, USU_CodTma)   			        \
                 values                                                            \
                   (:xNumEmp, :xTipCol, :xNumCad, 1, :aNomFun,                     \ 
-                   :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		                  \ 
+                   :dDatAdm, :xCodTap, :xSitAfa, :xCodEsc, :xTipCon,  		        \ 
                    :aTipSex, :xEstCiv, :xGraIns, :dDatNas, :xCodNac,              \
                    :aPerPag, 'N', :aCotDef, 4, :aVerInt,                          \
                    :xEstCar, :aCodCar, :xEstPos, :aPosTra, :xCodFil, 			        \ 
@@ -207,37 +207,8 @@ funcao RetornarMaiorNumCad(); {
     xNumCad = 1000;
   
   c_usu_t_omega.FecharCursor();
-}    
-    
-@Define valores para as variáveis da regra@
-funcao DefineValores(); {                                                       
-  @Variáveis numéricas@
-  
-  aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
-  aGrauInstrucao = InsereFuncionario.GrauInstrucao; @ 9 @
-  aNacionalidade = InsereFuncionario.Nacionalidade; @ 10 @
-  aNumCpf = InsereFuncionario.NumeroCpf;
-  xValSalHsa = InsereFuncionario.ValorSalario; @  @
-  xCplSalHsa = InsereFuncionario.ComplementoSalario; @@
-  aRacaCor = InsereFuncionario.RacaCor; @@
-  
-
-  @Variáveis alfanuméricas@  
-  aNomFun = InsereFuncionario.NomeColaborador;                               
-  aTipSex = InsereFuncionario.sexo;
-  aPerPag = InsereFuncionario.PeriodoPagamento;  @ @
-  aCotDef = InsereFuncionario.deficiencia; @@
-  aVerInt = InsereFuncionario.interjornada;
-  aPosTra = InsereFuncionario.PostoTrabalho; @ PADRAO @
-  
-  aCodCar = InsereFuncionario.Cargo;  @  @
-  
-  @Variáveis do tipo data@
-  dDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
-  dDatNas = InsereFuncionario.DataNascimento;
-  @dDatAltCcu = InsereFuncionario.DataAlteracaoCcu;@ @ 05/08/2022 @
-
 }
+
 
 funcao VariaveisValorFixo();{
   xCodFil = 1;
@@ -289,10 +260,43 @@ funcao VariaveisValorFixo();{
   dDataAlt = dDataAlt + 1;
   dDatInc = dDataAlt;
   dDatOpc = dDataAlt;
-  aHorInc = "12";
+
+  aHorInc = "12:00";
 
 }
-                                              
+    
+@Define valores para as variáveis da regra@
+funcao DefineValores(); {                                                       
+  @Variáveis numéricas@
+  
+  aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
+  aGrauInstrucao = InsereFuncionario.GrauInstrucao; @ 9 @
+  aNacionalidade = InsereFuncionario.Nacionalidade; @ 10 @
+  aNumCpf = InsereFuncionario.NumeroCpf;
+  xValSalHsa = InsereFuncionario.ValorSalario; @  @
+  xCplSalHsa = InsereFuncionario.ComplementoSalario; @@
+  aRacaCor = InsereFuncionario.RacaCor; @@
+  
+
+  @Variáveis alfanuméricas@  
+  aNomFun = InsereFuncionario.NomeColaborador;                               
+  aTipSex = InsereFuncionario.sexo;
+  aPerPag = InsereFuncionario.PeriodoPagamento;  @ @
+  aCotDef = InsereFuncionario.deficiencia; @@
+  aVerInt = InsereFuncionario.interjornada;
+  aPosTra = InsereFuncionario.PostoTrabalho; @ PADRAO @
+  
+  aCodCar = InsereFuncionario.Cargo;  @  @
+  
+  @Variáveis do tipo data@
+  dDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
+  dDatNas = InsereFuncionario.DataNascimento;
+  @dDatAltCcu = InsereFuncionario.DataAlteracaoCcu;@ @ 05/08/2022 @
+
+}
+
+
+@Associa os valores enviados pelo BPM aos seus valores de banco @                                              
 funcao AssociarValores(); {
   /*                                                      
   se((xTipCon < 1) ou (xTipCon > 13))                 
@@ -317,6 +321,9 @@ funcao AssociarValores(); {
     } senao se (aPerPag = "Quinzenal"){
       aPerPag = "Q";
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina um periodo de Pagamento";
+    xCodErr = 1;
   }
 
   se (aCodCar <> "") {
@@ -335,6 +342,9 @@ funcao AssociarValores(); {
     } senao se(aCodCar = "Contador") {
       aCodCar = "15";
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina um Cargo";
+    xCodErr = 1;
   }
 
   se (aVerInt <> "") {
@@ -345,6 +355,9 @@ funcao AssociarValores(); {
     } senao se (aVerInt = "Ignorar") {
       aVerInt = "I";
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina um periodo a Interjornada";
+    xCodErr = 1;
   }
 
   se (aEstadoCivil <> "") {
@@ -357,6 +370,9 @@ funcao AssociarValores(); {
     } senao se (aEstadoCivil = "Viúvo") {
       xEstCiv = 4;
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina um Estado Civil";
+    xCodErr = 1;
   }
 
   se (aGrauInstrucao <> "") {
@@ -375,6 +391,9 @@ funcao AssociarValores(); {
     } senao se (aGrauInstrucao = "Pós-Graduação") {
       xGraIns = 10;
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina um grau de Instrução";
+    xCodErr = 1;
   }
 
   se (aNacionalidade <> "") {
@@ -396,6 +415,9 @@ funcao AssociarValores(); {
       aCodNac = 30;
     senao se (aNacionalidade = "Belga")
       xCodNac = 31;
+  } senao {
+    aMsgRet = aMsgRet + " Defina um País de origem ";
+    xCodErr = 1;
   }
 
   se (aRacaCor <> "") {
@@ -412,6 +434,9 @@ funcao AssociarValores(); {
     } senao se(aRacaCor = "Indígena") {
       xRacCor = 5;
     }
+  } senao {
+    aMsgRet = aMsgRet + " Defina a Raça ou cor";
+    xCodErr = 1;
   }
 
 
@@ -552,8 +577,8 @@ funcao CadastroFichaBasica();{
 }
 
 @ Funcao que verifica se o cadastro foi feito pelo fichabasica6 @
-funcao VerificarCadastroR024FUN();{
-  xCodErrFicha = 0;
+funcao VerificarCadastroR034FUN();{
+  xCodErrFicha = 1;
 
   Definir cursor cur_r034fun;
 
