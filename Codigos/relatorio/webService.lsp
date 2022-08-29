@@ -293,7 +293,7 @@ funcao VariaveisValorFixo();{
 
 }
                                               
-funcao PreencheVazios(); {
+funcao AssociarValores(); {
   /*                                                      
   se((xTipCon < 1) ou (xTipCon > 13))                 
     xTipCon = 1; @Trabalhando@
@@ -323,17 +323,17 @@ funcao PreencheVazios(); {
     se (aCodCar = "Diretor Presidente") {
       aCodCar = "1";
     } senao se(aCodCar = "Gerente Financeiro") {
-      aCodCar = "10"
+      aCodCar = "10";
     } senao se(aCodCar = "Auxiliar Administrativo") {
-      aCodCar = "11"
+      aCodCar = "11";
     } senao se(aCodCar = "Expedidor") {
-      aCodCar = "12"
+      aCodCar = "12";
     } senao se(aCodCar = "Analista financeiro") {
-      aCodCar = "13"
+      aCodCar = "13";
     } senao se(aCodCar = "Motorista") {
-      aCodCar = "14"
+      aCodCar = "14";
     } senao se(aCodCar = "Contador") {
-      aCodCar = "15"
+      aCodCar = "15";
     }
   }
 
