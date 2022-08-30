@@ -52,11 +52,11 @@ Criando posto de trabalho e as características colocadas para ser o local que a
 
 ### Relatório
 
-![image](https://user-images.githubusercontent.com/61790986/187452821-137f3424-ab5d-402d-b578-db58cd0ebace.png)
+![image](https://user-images.githubusercontent.com/61790986/187534847-535c8ab7-f6a0-409c-8e61-87ad09513be5.png)
 
 **Resultado:**
 
-![image](https://user-images.githubusercontent.com/61790986/187301448-76637ecd-6a1e-4f1a-9b4b-bf7843b00fb0.png)
+![image](https://user-images.githubusercontent.com/61790986/187534976-c1909001-a542-45e7-8e4f-b13016c0f7be.png)
 ![image](https://user-images.githubusercontent.com/61790986/187301621-7b7686b5-226d-4a11-95c4-416810896b9f.png)
 
 
@@ -75,6 +75,7 @@ recursos → gerador de telas
 ![image](https://user-images.githubusercontent.com/61790986/187301937-087cc1d2-6149-467e-9516-606151da5070.png)
 
 ![image](https://user-images.githubusercontent.com/61790986/187302932-439def24-8fa6-4d64-838c-9725a3d04876.png)
+
 Tabela criada na interface com todos os campos da nossa USU_T_Omega.
 
 
