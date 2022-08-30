@@ -205,8 +205,7 @@ funcao VariaveisValorFixo(); {
   xCodTap = 1; 
   xSitAfa = 1; 
   xCodEsc = 0003;                     @ 1; @ 
-  xTabOrg = 1;
-  xNumloc = 1;   
+  xTabOrg = 1;   
   xCodMotHsa = 1;                     @ admissao @
   xCodTmaHes = 1;
   xSalEstHsa = 1; 
@@ -225,7 +224,7 @@ funcao VariaveisValorFixo(); {
   xCodSinHsi = 1;
   xConRho = 4;
   
-  aNumLoc = "1";                      @ "1.02.01.01"; @
+  aNumLoc = "1";                    @ "1.02.01.01"; @
   aCodCcu = "11";                     @ "1499"; @
   aApeFun = "Omega";
   aRec13s = "S";
@@ -267,12 +266,15 @@ funcao DefineValores(); {
 
 @--- Define a filial de acordo com o posto de trabalho ---@
 funcao PostodeTrabalho(); {
-  se(aPosTra = "POSTO OMEGA 01")
+  se(aPosTra = "POSTO OMEGA 01") {
     xCodFil = 1;
-  senao se(aPosTra = "POSTO OMEGA 02")
+    xNumLoc = 111;
+  } senao se(aPosTra = "POSTO OMEGA 02") {
     xCodFil = 2;
-  senao {
+    xNumLoc = 112;
+  } senao {
     xCodFil = 1;
+    xNumLoc = 111;
     aPosTra = "POSTO OMEGA 01";
   }
 }
@@ -473,7 +475,7 @@ funcao CadastroFichaBasica(); {
   fichaBasica.tipOpe = "I"; 
   fichaBasica.codVinHvi = xCodVinHvi; 
   fichaBasica.conRho = xConRho; 
-  fichaBasica.posTra = "PADRAO"; 
+  fichaBasica.posTra = aPosTra; 
   fichaBasica.numCad = xNumCad;  
   fichaBasica.apuPonApu = xApuPonApu; 
   fichaBasica.codTmaHes = xCodTmaHes; 
