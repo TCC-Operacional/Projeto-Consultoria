@@ -52,7 +52,7 @@ Criando posto de trabalho e as características colocadas para ser o local que a
 
 ### Relatório
 
-![image](https://user-images.githubusercontent.com/61790986/187301030-1c51459e-b8b1-496b-a09d-2d9b699ec0b4.png)
+![image](https://user-images.githubusercontent.com/61790986/187452821-137f3424-ab5d-402d-b578-db58cd0ebace.png)
 
 **Resultado:**
 
