@@ -14,13 +14,13 @@ definir funcao VerificarCadastroR034FUN();
 
 @---- Parâmetros de entrada e saída ----@
 definir numero xNumCad;
-definir numero xTipCon;    @ Tipo de contrato valor = 1 @
-definir numero xEstCiv;    @ Estado Civil @
-definir numero xGraIns;    @ Grau de Instrução @
-definir numero xCodNac;    @ R023NAC nacionalidade @
-definir numero xConRho;    @ Controle de ponto @
-definir numero xEstCar;    @ estrutura Cargo @
-definir numero xCodFil;    @ Código da filial mesma do posto @
+definir numero xTipCon;    
+definir numero xEstCiv;    
+definir numero xGraIns;    
+definir numero xCodNac;    
+definir numero xConRho;    
+definir numero xEstCar;    
+definir numero xCodFil;    
 definir numero xCatEso;    
 definir numero xCodEtb;    
 definir numero xRacCor;    
@@ -28,7 +28,7 @@ definir numero xCatSef;
 definir numero xValSalHsa; 
 definir numero xCplSalHsa; 
 definir numero xApuPonApu;  
-definir numero xTipSalHsa; @ R038HSA: 1(mensalista), 2(horista) ou 3(diarista) @
+definir numero xTipSalHsa; 
 definir numero xCodErr; 
 definir numero xCodErrFicha;
 
@@ -39,10 +39,10 @@ definir alfa aCotDef;
 definir alfa aVerInt;
 definir alfa aCodCar;
 definir alfa aPosTra;      
-definir alfa aTipOpc;      @ Optante do FGTS S ou N @
+definir alfa aTipOpc;      
 definir alfa aModPag;      
-definir alfa aRecAdi;      @ S ou N para adiantamento de salário @
-definir alfa aPagSin;      @ pagamento de sindicato "S" ou "N" @
+definir alfa aRecAdi;      
+definir alfa aPagSin;      
 definir alfa aNumCpf;      
 definir alfa aEstadoCivil;
 definir alfa aGrauInstrucao;
@@ -54,39 +54,39 @@ definir alfa aResult;
 
 definir data dDatAdm; 
 definir data dDatNas;      
-definir data dDatAltCcu;   @ R038HCC data de alteracao do cargo no ccu @
+definir data dDatAltCcu;   
                            
 @---- Variáveis com valores fixos ----@
-definir numero xNumEmp;    @ valor = 1 @
-definir numero xEstPos;    @ Devido aos postos cod = 2 @ 
-definir numero xTipCol;    @ valor = 1 @
-definir numero xAcademia;  @ valor = 1 @
-definir numero xCodTap;    @ valor = 1 @
-definir numero xSitAfa;    @ valor = 1 @
-definir numero xCodEsc;    @ valor = 1 @
-definir numero xTabOrg;    @ valor = 1 @
+definir numero xNumEmp;    
+definir numero xEstPos;     
+definir numero xTipCol;   
+definir numero xAcademia;  
+definir numero xCodTap;    
+definir numero xSitAfa;    
+definir numero xCodEsc;    
+definir numero xTabOrg;   
 definir numero xCodMotHsa; 
 definir numero xCodTmaHes; 
-definir numero xNumLoc;    @ 1 @
+definir numero xNumLoc;    
 definir numero xTipAdmHfi; 
 definir numero xSalEstHsa; 
 definir numero xCplEstHsa; 
 definir numero xCodEstHsa; 
 definir numero xCodVinHvi; 
-definir numero xIndAdm;    @ Indicativo de Adimissao: 1 @
+definir numero xIndAdm;    
 definir numero aCodSinHsi;
 
-definir alfa aEmiCar;      @ valor = "N" @
-definir alfa aCodCcu;      @ 1499 Recursos Humanos @ 
-definir alfa aApeFun;      @ Valor = "AP" @
-definir alfa aRec13s;      @ S ou N  decimo terceiro @
-definir alfa aLisRai;      @ Lista de Colaborador na rais, S ou N @
+definir alfa aEmiCar;      
+definir alfa aCodCcu;      
+definir alfa aApeFun;     
+definir alfa aRec13s;      
+definir alfa aLisRai;     
 definir alfa aCodFicFmd ;  
-definir alfa aNumLoc;      @ 1 @
-definir alfa aHorInc;      @ hora da inclusão : DD/MM/AAAA (Time) @
+definir alfa aNumLoc;    
+definir alfa aHorInc;    
 
 definir data dDatInc;      
-definir data dDatOpc;      @ data de operacao do fgts @
+definir data dDatOpc;     
 definir data dDataAlt;
 
 @--------------------------------- Main ---------------------------------------@
@@ -95,43 +95,43 @@ xCodErr = 0;
 aMsgRetFicha = "";
 xCodErrFicha = 0;
                                                                         
-@---  ---@                                                                        
+@--- Define número de cadastro para o colaborador ---@                                                                        
 RetornarMaiorNumCad();
-@---  ---@  
+
+@--- Define valores fixos para praticidade da apresentação ---@  
 VariaveisValorFixo();                                                          
-@---  ---@  
+
+@--- Guarda os valores do formulário ---@  
 DefineValores();                                                                
-@---  ---@  
+
+@--- Define filial para o colaborador ---@  
 PostodeTrabalho();  
-@---  ---@                                           
+
+@--- Guarda valores do formulário em códigos ---@                                           
 AssociarValores();    
-@--- Altera MsgRet caso a entrada não seja válida ---@                                                           
+
+@--- Valida dados necessários para cadastro ---@                                                           
 ValidarEntrada();  
   
 se(aMsgRet = "") {
 
-  @--- chama a função que cadastra na R034FUN ---@
+  @--- Cadastra colaborador na tabela R034FUN ---@
   CadastroFichaBasica();
   
-  aResult = fichaBasica.erroExecucao;
-  InsereFuncionario.ErrorMSG = aResult;
-  aMsgRet = aResult;
-  
-  @---  ---@
+  @--- Verifica se o primeiro cadastro foi realizado ---@
   VerificarCadastroR034FUN();                                                       
 
   se((xCodErrFicha = 0) e (aMsgRet = "")) {
 
-    @ Realiza o insert na USU_T_Omega @
+    @ Atualiza o código da academia para o colaborador inserido @
     IniciarTransacao();   
     ExecSQL "UPDATE R034FUN set usu_academia = 1                               \
               WHERE numcad = :xNumCad                                          \
                 AND numemp = :xNumEmp                                          \
                 AND tipcol = :xTipCol";
     FinalizarTransacao(); 
-
     
-    @ Realiza o insert na USU_T_Omega @
+    @ Cadastra colaborador na tabela USU_T_Omega @
     IniciarTransacao();
     ExecSQLEx("insert into USU_T_Omega                                         \
                   (USU_NumEmp, USU_TipCol, USU_NumCad, USU_Academia,           \
@@ -166,25 +166,27 @@ se(aMsgRet = "") {
     }
   }
   
-  @---  ---@
+  @--- Retorna código e mensagem para o usuário ---@
   RetornaWebService(); 
 
 } senao
-  @---  ---@
+  @--- Retorna código e mensagem para o usuário ---@
   RetornaWebService();                                                          
 
 @---------------------------------- Funções -----------------------------------@           
     
-@---  ---@
+@--- Realiza um auto-increment no número de cadastro ---@
 funcao RetornarMaiorNumCad(); {                                                 
   definir cursor c_usu_t_omega;
   
+  @ Busca maior número de cadastro dentro do range do grupo @
   c_usu_t_omega.SQL "select usu_numcad from usu_t_omega where 0 = 1 union      \
                      select max(usu_numcad) from usu_t_omega                   \
                       where usu_numcad < 2000";                                
   
   c_usu_t_omega.AbrirCursor();
   
+  @ Verifica se existe cadastro e define o próximo para o colaborador @
   se(c_usu_t_omega.Achou)
     xNumCad = c_usu_t_omega.usu_numcad + 1;
   senao
@@ -193,7 +195,7 @@ funcao RetornarMaiorNumCad(); {
   c_usu_t_omega.FecharCursor();
 }
 
-@---  ---@
+@--- Define valores fixos para as variáveis obrigatórias ---@
 funcao VariaveisValorFixo(); {
   xCodFil = 1;
   xEstPos = 2;
@@ -202,16 +204,16 @@ funcao VariaveisValorFixo(); {
   xAcademia = 1; 
   xCodTap = 1; 
   xSitAfa = 1; 
-  xCodEsc = 0003; @1;@ 
+  xCodEsc = 0003;                     @ 1; @ 
   xTabOrg = 1;
   xNumloc = 1;   
-  xCodMotHsa = 1;  @admissao@
+  xCodMotHsa = 1;                     @ admissao @
   xCodTmaHes = 1;
   xSalEstHsa = 1; 
   xCplEstHsa = 0; 
   xCodEstHsa = 1;
   xCodVinHvi = 10;
-  xCatEso = 9999; @101;@
+  xCatEso = 9999;                     @ 101; @
   xCodEtb = 0;
   xEstCar = 1;
   xIndAdm = 1;
@@ -222,14 +224,14 @@ funcao VariaveisValorFixo(); {
   xTipSalHsa = 1;
   xCodSinHsi = 1;
   xConRho = 4;
-
-  aNumLoc = "1";@"1.02.01.01";@
-  aCodCcu = "11"; @"1499";@
+  
+  aNumLoc = "1";                      @ "1.02.01.01"; @
+  aCodCcu = "11";                     @ "1499"; @
   aApeFun = "Omega";
   aRec13s = "S";
   aLisRai = "N";
   aTipOpc = "N";
-  aModPag = "D"; @"R";@
+  aModPag = "D";                      @ "R"; @
   aCodFicFmd = "CANCELA";
   aPagSin = "N";
   aRecAdi = "N";
@@ -243,26 +245,36 @@ funcao VariaveisValorFixo(); {
   dDatOpc = dDataAlt;
 }
     
-@--- Define valores para as variáveis da regra ---@
+@--- Guarda os parâmetros de entrada ---@
 funcao DefineValores(); {                                                       
-  aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
-  aGrauInstrucao = InsereFuncionario.GrauInstrucao; @ 9 @
-  aNacionalidade = InsereFuncionario.Nacionalidade; @ 10 @
+  aEstadoCivil = InsereFuncionario.EstadoCivil;
+  aGrauInstrucao = InsereFuncionario.GrauInstrucao;
+  aNacionalidade = InsereFuncionario.Nacionalidade;
   aNumCpf = InsereFuncionario.NumeroCpf;
-  xValSalHsa = InsereFuncionario.ValorSalario; @  @
-  xCplSalHsa = InsereFuncionario.ComplementoSalario; @@
-  aRacaCor = InsereFuncionario.RacaCor; @@
-  
+  xValSalHsa = InsereFuncionario.ValorSalario;
+  xCplSalHsa = InsereFuncionario.ComplementoSalario;
+  aRacaCor = InsereFuncionario.RacaCor;
   aNomFun = InsereFuncionario.NomeColaborador;                               
   aTipSex = InsereFuncionario.sexo;
-  aPerPag = InsereFuncionario.PeriodoPagamento;  @ @
-  aCotDef = InsereFuncionario.deficiencia; @@
+  aPerPag = InsereFuncionario.PeriodoPagamento;
+  aCotDef = InsereFuncionario.deficiencia;
   aVerInt = InsereFuncionario.interjornada;
-  aPosTra = InsereFuncionario.PostoTrabalho; @ PADRAO @
-  aCodCar = InsereFuncionario.Cargo;  @  @
-  
-  dDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
+  aPosTra = InsereFuncionario.PostoTrabalho;
+  aCodCar = InsereFuncionario.Cargo;       
+  dDatAdm = InsereFuncionario.DataAdmissao;                            
   dDatNas = InsereFuncionario.DataNascimento;
+}
+
+@--- Define a filial de acordo com o posto de trabalho ---@
+funcao PostodeTrabalho(); {
+  se(aPosTra = "POSTO OMEGA 01")
+    xCodFil = 1;
+  senao se(aPosTra = "POSTO OMEGA 02")
+    xCodFil = 2;
+  senao {
+    xCodFil = 1;
+    aPosTra = "POSTO OMEGA 01";
+  }
 }
 
 @--- Associa os valores enviados pelo BPM aos seus valores de banco ---@                                              
@@ -395,13 +407,13 @@ funcao AssociarValores(); {
   }
 }
 
-@--- A variavel aMsgRet retorna caso uma das entradas não seja valida ---@
+@--- Retorna mensagem de erro caso a entrada não seja válida ---@
 funcao ValidarEntrada(); {
   definir alfa aQuebraLinha;
-
-  RetornaAscii(13,aQuebraLinha);
-  TamanhoAlfa(aNomFun, vTam);
   
+  RetornaAscii(13, aQuebraLinha);
+
+  TamanhoAlfa(aNomFun, vTam);
   se(vTam < 5) {
     xCodErr = 1;
     aMsgRet = "O nome precisa ter 5 ou mais caracteres!";
@@ -409,34 +421,26 @@ funcao ValidarEntrada(); {
 
   se((aTipSex <> "M") e (aTipSex <> "F")) {
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + " Digite M (Masculino) ou F (Feminino) para sexo.";
+    aMsgRet = aMsgRet + aQuebraLinha +
+      " Digite M (Masculino) ou F (Feminino) para sexo.";
   } 
   
   se((aPerPag <> "M") e (aPerPag <> "S") e (aPerPag <> "Q")) {
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + " Digite M (Mensal), S (Semanal) ou Q (Quinzenal) para período de pagamento.";
+    aMsgRet = aMsgRet + aQuebraLinha +
+      " M (Mensal), S (Semanal) ou Q (Quinzenal) para período de pagamento.";
   } 
   
   se((aCotDef <> "S") e (aCotDef <> "N")) {
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + " Digite S (Sim) ou N (Não) para deficiência.";                  
+    aMsgRet = aMsgRet + aQuebraLinha +
+      " Digite S (Sim) ou N (Não) para deficiência.";                  
   } 
   
   se((aVerInt <> "A") e (aVerInt <> "B") e (aVerInt <> "I")) {
     xCodErr = 1;
-    aMsgRet = aMsgRet + aQuebraLinha + " Digite A (Alertar), B (Bloquear) ou I (Ignorar) para interjornada.";
-  }
-}
-
-@---  ---@
-funcao PostodeTrabalho(); {
-  se(aPosTra = "POSTO OMEGA 01")
-    xCodFil = 1;
-  senao se(aPosTra = "POSTO OMEGA 02")
-    xCodFil = 2;
-  senao {
-    xCodFil = 1;
-    aPosTra = "POSTO OMEGA 01";
+    aMsgRet = aMsgRet + aQuebraLinha +
+      " A (Alertar), B (Bloquear) ou I (Ignorar) para interjornada.";
   }
 }
 
@@ -448,7 +452,7 @@ funcao RetornaWebService(); {
   InsereFuncionario.retorno.msgRet = aMsgRet;
 }
 
-@---  ---@
+@--- Define os campos do webservice e executa ---@
 funcao CadastroFichaBasica(); {
   definir alfa aDataAlt;
 
@@ -458,12 +462,12 @@ funcao CadastroFichaBasica(); {
   fichaBasica.datAdm = dDatAdm; 
   fichaBasica.sitAfa = xSitAfa; 
   fichaBasica.codCar = aCodCar; 
-  fichaBasica.numLoc = aNumLoc; @alfanumeiroco@ 
+  fichaBasica.numLoc = aNumLoc;       
   fichaBasica.codEsc = xCodEsc; 
   fichaBasica.codFil = xCodFil; 
   fichaBasica.codCcu = aCodCcu; 
   fichaBasica.pagSin = aPagSin; 
-  fichaBasica.codFicFmd = aCodFicFmd; @alfanumeiroco@ 
+  fichaBasica.codFicFmd = aCodFicFmd; 
   fichaBasica.codTap = xCodTap; 
   fichaBasica.cateSo = xCatEso; 
   fichaBasica.tipOpe = "I"; 
@@ -487,9 +491,9 @@ funcao CadastroFichaBasica(); {
   fichaBasica.codEstHsa = xCodEstHsa; 
   fichaBasica.estCiv = xEstCiv; 
   fichaBasica.graIns = xGraIns; 
-  fichaBasica.valSalHsa = xValSalHsa; @decimal@
-  fichaBasica.cplSalHsa = xCplSalHsa; @decimal@
-  fichaBasica.tipApo = 1 ;@ enum : 1-Saúde, 2-Pensão , 3-Solidariedade @
+  fichaBasica.valSalHsa = xValSalHsa; 
+  fichaBasica.cplSalHsa = xCplSalHsa; 
+  fichaBasica.tipApo = 1 ;           
   fichaBasica.codNac = xCodNac; 
   fichaBasica.recAdi = aRecAdi;  
   fichaBasica.emiCar = aEmiCar; 
@@ -499,13 +503,17 @@ funcao CadastroFichaBasica(); {
   fichaBasica.codMotHca = 1;
   fichaBasica.PerPag = "M";
   fichaBasica.Rec13s = "N";
-  fichaBasica.racCor = xRacCor; @1-branca, 2- preta, 3-Amarela, 4-Parda, 5-Indigena@
+  fichaBasica.racCor = xRacCor;       
 
   fichaBasica.ModoExecucao = 1;
   fichaBasica.Executar();
+  
+  aResult = fichaBasica.erroExecucao;
+  InsereFuncionario.ErrorMSG = aResult;
+  aMsgRet = aResult;
 }
 
-@--- Funcao que verifica se o cadastro foi feito pelo fichabasica6 ---@
+@--- Verifica se o cadastro foi feito pelo webservice fichabasica6 ---@
 funcao VerificarCadastroR034FUN(); {
   definir cursor cur_r034fun;
   
@@ -522,7 +530,8 @@ funcao VerificarCadastroR034FUN(); {
   se(cur_r034fun.achou)
   	xCodErrFicha = 0;
   senao
-    aMsgRet = aMsgRet + " Cadastro não foi feito em R034FUN, portando cadastro encerrado para evitar inconsistencia"; 
+    aMsgRet = aMsgRet +
+      " Falha ao cadastrar!. Cadastro encerrado para evitar inconsistência"; 
 	
   cur_r034fun.FecharCursor();
-}
+}        
