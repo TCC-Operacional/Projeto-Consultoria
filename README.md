@@ -95,6 +95,54 @@ ExecutaRelatorio("FPRE188.COL", "N");
 ![image](https://user-images.githubusercontent.com/61790986/187303570-f4c40a4f-1486-4038-9a97-9ae3b3571b6e.png)
 
 
+## Painel de Gestão BPM 
+
+
+<div style="text-align: center">
+<p> Primeira tela do BPM </p>
+<img src="https://user-images.githubusercontent.com/44294260/187773498-3d30a9e7-455b-4b01-9a7f-18e450207514.png" alt="" width="60%" height="60%">
+</div>
+
+### Formulário 
+
+![image](https://user-images.githubusercontent.com/44294260/187775766-c507df60-d15f-4e83-94f7-a0757d1b9c4e.png)
+
+![image](https://user-images.githubusercontent.com/44294260/187775942-fb8390cb-15bf-440a-a8bf-0f9ec166ba57.png)
+
+
+### Fluxo do BPM
+
+![image](https://user-images.githubusercontent.com/44294260/187776111-fb6e3f43-620a-403e-b1b9-54f0c406ea25.png)
+
+<img src="https://user-images.githubusercontent.com/44294260/187776198-700fb05d-2246-4ff2-963b-a2e01a19b3d9.png" alt="" width="50%" height="50%">
+
+<img src="https://user-images.githubusercontent.com/44294260/187776412-984ff938-4b5d-4c93-8313-db5ae6130444.png" alt="" width="50%" height="50%">
+
+<img src="https://user-images.githubusercontent.com/44294260/187776615-5993973f-87c0-4eaa-b6ef-70d78bb0de0f.png" alt="" width="50%" height="50%">
+
+##### Em concluir
+
+
+
+<img src="https://user-images.githubusercontent.com/44294260/187776973-01eff188-c054-4611-b7b3-71c3bd3a46cc.png" alt="" width="30%" height="30%">
+
+<img src="https://user-images.githubusercontent.com/44294260/187776771-58c2d64f-b340-453b-bd4b-51c5887acdaa.png" alt="" width="50%" height="50%">
+
+
+
+
+
+<img src="https://user-images.githubusercontent.com/44294260/187779925-2518fd81-38d8-47ff-bd17-bf2968f50221.png" alt="" width="70%" height="70%">
+
+<img src="https://user-images.githubusercontent.com/44294260/187779714-10aa685b-e671-4e82-a811-601ab832c9b5.png" alt="" width="70%" height="70%">
+
+![image](https://user-images.githubusercontent.com/44294260/187780532-05a0403b-6132-47e0-bd1c-c8f2f5e6c6ab.png)
+
+
+
+
+
+
 
 
 
