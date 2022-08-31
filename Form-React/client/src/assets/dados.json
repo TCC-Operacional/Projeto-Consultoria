@@ -1,0 +1,71 @@
+{
+  "estCiv": [
+    "Solteiro", 
+    "Casado", 
+    "Divorciado", 
+    "Viúvo", 
+    "Concubinato", 
+    "Separado", 
+    "União Estável", 
+    "Outros"
+  ],
+  "tipsex" : [
+    "F", 
+    "M"
+  ],
+  "simNao": [
+    "S",
+    "N"
+  ],
+  "codNac": [
+    "Brasileiro",
+    "Brasileiro Naturalizado",
+    "Argentino",
+    "Boliviano",
+    "Chileno",
+    "Paraguaio",
+    "Uruguaio",
+    "Alemão",
+    "Belga"
+  ],
+  "racaCor": [
+    "Não Informado",
+    "Branca",
+    "Preta/Negra",
+    "Amarela",
+    "Parda",
+    "Indígena"
+  ],
+  "graIns": [
+    "Analfabeto",
+    "1º Grau Completo",
+    "2º Grau Incompleto",
+    "2º Grau Completo",
+    "Superior Incompleto",
+    "Superior Completo",
+    "Pós-Graduação"
+  ],
+  "verInt": [
+    "Alertar",
+    "Bloquear", 
+    "Ignorar"
+  ],
+  "posTra":[
+    "POSTO OMEGA 01",
+    "POSTO OMEGA 02"
+  ],
+  "codCar": [
+    "Diretor Presidente",
+    "Gerente Financeiro",
+    "Auxiliar Administrativo",
+    "Expedidor",
+    "Analista financeiro",
+    "Motorista",
+    "Contador"
+  ],
+  "perPag": [
+    "Mensal",
+    "Semanal",
+    "Quinzenal"
+  ]
+}
