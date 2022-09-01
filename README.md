@@ -1,4 +1,12 @@
 # Projeto-Consultoria
+
+## Problemas de case 
+
+​	Uma empresa chamada Ômega quer otimizar os processos de cadastro de funcionário, pois para eles é feita da seguinte forma, é aberta uma solicitação de cadastro e quando é finalizada, um empregado abre o sistema de HCM do G5 para fazer esse cadastro manualmente, como esta empresa está querendo expandir e contratar novos funcionários, ela quer evitar de ter que utilizar tanto tempo e esforço na contratação, por conta disso tem se a necessidade de automatizar esse processo em que querem evitar de utilizar a interface do sistema mais antigo, a fim de vender se como uma empresa moderna. 
+​	porém por não confiarem totalmente nesse integração do painel de gestão com o HCM, ele exigem que tenha alguma forma de analisar as possíveis inconsistências de cadastros, ou seja um relatório que mostre quais cadastros foram feitos e quais não forma.   
+
+
+
 ### Projeto criado para organizar os arquivos da entrega do TCC da Academia Lobtec.
 
 <h4>Fluxo de Desenvolvimento</h4>
@@ -42,7 +50,7 @@ Acesse o código do Web Service <a href="https://github.com/TCC-Operacional/Proj
 
 
 ## Postos de Trabalho criados
-  
+
   * POSTO OMEGA 01 - Empresa = 1, filial = 1
   * POSTO OMEGA 02 - Empresa = 1, filial = 2 
 
@@ -114,30 +122,31 @@ ExecutaRelatorio("FPRE188.COL", "N");
 
 ![image](https://user-images.githubusercontent.com/44294260/187776111-fb6e3f43-620a-403e-b1b9-54f0c406ea25.png)
 
+​	No fluxo, primeiramente temos o preenchimento das informações referente ao funcionário que será cadastrado, após concluir será levado a atividade de log que será verificado se as informações estão corretas, podendo concluir a solicitação ou pedir para arrumar a informação com uma mensagem de qual informação ou campo preenchido não está coerente. Caso seja selecionado concluir a atividade da solicitação é finalizada, por consequência e cadastrado o funcionário no sistema HCM  e caso vá para a revisão é retornado para o log para analisar as informações podendo repetir o processo, concluir ou cancelar. 
+
 <img src="https://user-images.githubusercontent.com/44294260/187776198-700fb05d-2246-4ff2-963b-a2e01a19b3d9.png" alt="" width="50%" height="50%">
 
 <img src="https://user-images.githubusercontent.com/44294260/187776412-984ff938-4b5d-4c93-8313-db5ae6130444.png" alt="" width="50%" height="50%">
 
 <img src="https://user-images.githubusercontent.com/44294260/187776615-5993973f-87c0-4eaa-b6ef-70d78bb0de0f.png" alt="" width="50%" height="50%">
 
-##### Em concluir
+#### Em concluir
 
 
 
-<img src="https://user-images.githubusercontent.com/44294260/187776973-01eff188-c054-4611-b7b3-71c3bd3a46cc.png" alt="" width="30%" height="30%">
+<img src="https://user-images.githubusercontent.com/44294260/187776973-01eff188-c054-4611-b7b3-71c3bd3a46cc.png" alt="" width="50%" height="50%">
 
 <img src="https://user-images.githubusercontent.com/44294260/187776771-58c2d64f-b340-453b-bd4b-51c5887acdaa.png" alt="" width="50%" height="50%">
 
 
 
-
+### Serviço de integração com o web Service
 
 <img src="https://user-images.githubusercontent.com/44294260/187779925-2518fd81-38d8-47ff-bd17-bf2968f50221.png" alt="" width="70%" height="70%">
 
 <img src="https://user-images.githubusercontent.com/44294260/187779714-10aa685b-e671-4e82-a811-601ab832c9b5.png" alt="" width="70%" height="70%">
 
 ![image](https://user-images.githubusercontent.com/44294260/187780532-05a0403b-6132-47e0-bd1c-c8f2f5e6c6ab.png)
-
 
 
 
