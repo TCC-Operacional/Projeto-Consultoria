@@ -2,8 +2,9 @@
 
 ## Problemas de case 
 
-​	Uma empresa chamada Ômega quer otimizar os processos de cadastro de funcionário, pois para eles é feita da seguinte forma, é aberta uma solicitação de cadastro e quando é finalizada, um empregado abre o sistema de HCM do G5 para fazer esse cadastro manualmente, como esta empresa está querendo expandir e contratar novos funcionários, ela quer evitar de ter que utilizar tanto tempo e esforço na contratação, por conta disso tem se a necessidade de automatizar esse processo em que querem evitar de utilizar a interface do sistema mais antigo, a fim de vender se como uma empresa moderna. 
-​	porém por não confiarem totalmente nesse integração do painel de gestão com o HCM, ele exigem que tenha alguma forma de analisar as possíveis inconsistências de cadastros, ou seja um relatório que mostre quais cadastros foram feitos e quais não forma.   
+ ​ A Ômega foi contratada pela Lobtec para criar um processo de cadastro de colaboradores da empresa. Já existe uma tabela no banco de dados para inserir os novos colaboradores, mas foi proposta a criação de uma nova para cadastrar em ambas e ter um relatório de verificação de consistência dos registros. Mas não era apenas necessário inserir um colaborador. Deveria haver uma tela para poder editar e excluir os registros na nossa tabela e nela acessar o relatório de consistência criado.
+
+ ​	Assim, foi criado um cadastro pelo BPM na SeniorX Platform, um WebService que insere o registro nas tabelas, uma tela de edição e exclusão dos registros que pode ser acessada no Menu Personalizadas do G5 e o relatório de Consistência.
 
 
 
