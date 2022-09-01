@@ -2,60 +2,44 @@ import Input from './components/Input';
 import Select from './components/Select';
 import './css/App.css';
 
-import dados from './assets/dados.json'
-import { useState } from 'react';
+import dados from './assets/dados.json';
 import api from '../src/services/api';
 
 function App() {
 
-  const [NomeColaborador, setNomeColaborador] = useState('');
-  const [DataAdmissao, setDataAdmissao] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [EstadoCivil, setEstadoCivil] = useState('');
-  const [DataNascimento, setDataNascimento] = useState('');
-  const [GrauInstrucao, setGrauInstrucao] = useState('');
-  const [Nacionalidade, setNacionalidade] = useState('');
-  const [PeriodoPagamento, setPeriodoPagamento] = useState('');
-  const [deficiencia, setDeficiencia] = useState('');
-  const [interjornada, setInterjornada] = useState('');
-  const [RacaCor, setRacaCor] = useState('');
-  const [NumeroCpf, setNumeroCpf] = useState('');
-  const [Cargo, setCargo] = useState('');
-  const [PostoTrabalho, setPostoTrabalho] = useState('');
-  const [DataAlteracaoCcu, setDataAlteracaoCcu] = useState('');
-  const [ValorSalario, setValorSalario] = useState('');
-  const [ComplementoSalario, setComplementoSalario] = useState('');
-
   async function handleSubmit() {
-    setNomeColaborador(document.getElementById('id-nomfun').value);
-    setDataAdmissao(document.getElementById('id-datadm').value);
-    setSexo(document.getElementById('id-tipsex').value);
-    setEstadoCivil(document.getElementById('id-estciv').value);
-    setDataNascimento(document.getElementById('id-datnas').value);
-    setGrauInstrucao(document.getElementById('id-grains').value);
-    setNacionalidade(document.getElementById('id-codnac').value);
-    setPeriodoPagamento(document.getElementById('id-perpag').value);
-    setDeficiencia(document.getElementById('id-coddef').value);
-    setInterjornada(document.getElementById('id-verint').value);
-    setRacaCor(document.getElementById('id-raccor').value);
-    setNumeroCpf(document.getElementById('id-numcpf').value);
-    setCargo(document.getElementById('id-codcar').value);
-    setPostoTrabalho(document.getElementById('id-postra').value);
-    setDataAlteracaoCcu(document.getElementById('id-dataltccu').value);
-    setValorSalario(document.getElementById('id-valsal').value);
-    setComplementoSalario(document.getElementById('id-cplsal').value);
+    const NomeColaborador = document.getElementById('id-nomfun').value;
+    const DataAdmissao = document.getElementById('id-datadm').value;
+    const Sexo = document.getElementById('id-tipsex').value;
+    const EstadoCivil = document.getElementById('id-estciv').value;
+    const DataNascimento = document.getElementById('id-datnas').value;
+    const GrauInstrucao = document.getElementById('id-grains').value;
+    const Nacionalidade = document.getElementById('id-codnac').value;
+    const PeriodoPagamento = document.getElementById('id-perpag').value;
+    const Deficiencia = document.getElementById('id-coddef').value;
+    const Interjornada = document.getElementById('id-verint').value;
+    const RacaCor = document.getElementById('id-raccor').value;
+    const NumeroCpf = document.getElementById('id-numcpf').value;
+    const Cargo = document.getElementById('id-codcar').value;
+    const PostoTrabalho = document.getElementById('id-postra').value;
+    const DataAlteracaoCcu = document.getElementById('id-dataltccu').value;
+    const ValorSalario = document.getElementById('id-valsal').value;
+    const ComplementoSalario = document.getElementById('id-cplsal').value;
     
-    var colaborador = {
+    const colaborador = {
+      user: 'senior',
+      password: 'senior',
+      encryption: '0',
       NomeColaborador: NomeColaborador, 
       DataAdmissao: DataAdmissao, 
-      sexo: sexo,
+      sexo: Sexo,
       EstadoCivil: EstadoCivil,
       DataNascimento: DataNascimento, 
       GrauInstrucao: GrauInstrucao, 
       Nacionalidade: Nacionalidade, 
       PeriodoPagamento: PeriodoPagamento, 
-      deficiencia: deficiencia, 
-      interjornada: interjornada, 
+      deficiencia: Deficiencia, 
+      interjornada: Interjornada, 
       RacaCor: RacaCor, 
       NumeroCpf: NumeroCpf, 
       Cargo: Cargo,
@@ -65,11 +49,9 @@ function App() {
       ComplementoSalario: ComplementoSalario
     }
 
-    console.log(colaborador);
-
     await api.post('/colaborador', colaborador)
       .then(() => alert('Foi!'))
-      .catch(err => console.log(err));
+      .catch(err => console.log('erro', err));
   };
 
   return (
