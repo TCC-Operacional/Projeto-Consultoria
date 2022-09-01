@@ -1,0 +1,8 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+select {
+  height: 29px;
+  text-indent: 5px;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../../css/input.css';
 
 export default function Input(props) {
   const [valor, setValor] = useState('');

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../../css/select.css';
 
 export default function Select(props) {
   const [valor, setValor] = useState('');

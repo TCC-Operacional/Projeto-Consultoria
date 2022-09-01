@@ -1,38 +1,134 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+* {
+  margin: 0;
+  padding: 0;
   }
+
+*:focus {
+  outline: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 10vh;
+header {
+  background-color: #632bb1;
+  height: 12vh;
   display: flex;
+  text-align: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* font-size: calc(10px + 2vmin); */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+section {
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form {
+  height: 90%;
+  width: 55%;
+  margin: 2% auto;
+  border-radius: 10px;
+  box-shadow: 3px 2px 8px 3px rgba(0,0,0,0.2);
+}
+
+.header-form-section hr {
+  margin-bottom: 3%;
+}
+
+.div-prof-data, .div-pers-data {
+  padding: 3% 5%;
+}
+
+h4 {
+  color: #f06d16;
+  margin: 1%;
+}
+
+.div-10 {
+  width: 96%;
+  margin: 1% 2%;
+}
+
+.div-3 {
+  width: 30%;
+  margin: 1%
+}
+
+.div-infos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.div-input, .div-select {
+  display: flex;
+  flex-direction: column;
+}
+
+.div-actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 3% 0 5%;
+}
+
+.btn-submit {
+  background-color: #f06d16;
+  width: 140px;
+  padding: 1%;
+  color: #fff;
+  border: solid 1px #f06d16;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background-color: #d85600;
+  border: solid 1px #c24e00;
+  transition: ease-in-out .2s;
+}
+
+.input-reset {
+  border: solid 1px #c24e00;
+  background-color: #fff;
+  color: #c24e00;
+  width: 130px;
+  border-radius: 5px;
+}
+
+.input-reset:hover {
+  background-color: #f06d16;
+  border: solid 1px #f06d16;
+  color: #fff;
+  cursor: pointer;
+  transition: ease-in-out .2s;
+}
+
+form label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+footer {
+  padding: 1% 0;
+  text-align: center;
+  background-color: #632bb1aa;
+} 
+
+footer p {
+  margin: 5px;
+  color: #ecdfff;
+}
+
+footer span {
+  padding: 5px;
+}
+
+footer span:hover {
+  color: #542596;
+  cursor: default;
+  transition: ease-in-out .2s;
+}
+
+footer p + p {
+  font-size: 18px;
+  margin: 15px 0;
 }

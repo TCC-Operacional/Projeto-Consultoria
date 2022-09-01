@@ -14,8 +14,7 @@ app.set('view engine', 'ejs');
 app.use("/", router);
 
 app.get("/", (req, res)=>{
-    // #swagger.tags = ["home"]
-    res.send("Oi!");
+    res.send("Página Inicial!");
 });
 
 app.listen(3001,() => {
