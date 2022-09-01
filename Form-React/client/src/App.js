@@ -8,45 +8,54 @@ import api from '../src/services/api';
 function App() {
 
   async function handleSubmit() {
-    const NomeColaborador = document.getElementById('id-nomfun').value;
-    const DataAdmissao = document.getElementById('id-datadm').value;
-    const Sexo = document.getElementById('id-tipsex').value;
-    const EstadoCivil = document.getElementById('id-estciv').value;
-    const DataNascimento = document.getElementById('id-datnas').value;
-    const GrauInstrucao = document.getElementById('id-grains').value;
-    const Nacionalidade = document.getElementById('id-codnac').value;
-    const PeriodoPagamento = document.getElementById('id-perpag').value;
-    const Deficiencia = document.getElementById('id-coddef').value;
-    const Interjornada = document.getElementById('id-verint').value;
-    const RacaCor = document.getElementById('id-raccor').value;
-    const NumeroCpf = document.getElementById('id-numcpf').value;
-    const Cargo = document.getElementById('id-codcar').value;
-    const PostoTrabalho = document.getElementById('id-postra').value;
-    const DataAlteracaoCcu = document.getElementById('id-dataltccu').value;
-    const ValorSalario = document.getElementById('id-valsal').value;
-    const ComplementoSalario = document.getElementById('id-cplsal').value;
+    let NomeColaborador = document.getElementById('id-nomfun').value;
+    let DataAdmissao = document.getElementById('id-datadm').value;
+    let Sexo = document.getElementById('id-tipsex').value;
+    let EstadoCivil = document.getElementById('id-estciv').value;
+    let DataNascimento = document.getElementById('id-datnas').value;
+    let GrauInstrucao = document.getElementById('id-grains').value;
+    let Nacionalidade = document.getElementById('id-codnac').value;
+    let PeriodoPagamento = document.getElementById('id-perpag').value;
+    let Deficiencia = document.getElementById('id-coddef').value;
+    let Interjornada = document.getElementById('id-verint').value;
+    let RacaCor = document.getElementById('id-raccor').value;
+    let NumeroCpf = document.getElementById('id-numcpf').value;
+    let Cargo = document.getElementById('id-codcar').value;
+    let PostoTrabalho = document.getElementById('id-postra').value;
+    let DataAlteracaoCcu = document.getElementById('id-dataltccu').value;
+    let ValorSalario = document.getElementById('id-valsal').value;
+    let ComplementoSalario = document.getElementById('id-cplsal').value;
+    
+    let datadm = new Date(DataAdmissao);
+    datadm.setDate(datadm.getDate() + 1)
+    datadm = datadm.toLocaleDateString();
+    
+    let datnas = new Date(DataNascimento);
+    datnas.setDate(datnas.getDate() + 1)
+    datnas = datnas.toLocaleDateString();
+    
+    let datalt = new Date(DataAlteracaoCcu);
+    datalt.setDate(datalt.getDate() + 1)
+    datalt = datalt.toLocaleDateString();
     
     const colaborador = {
-      user: 'senior',
-      password: 'senior',
-      encryption: '0',
-      NomeColaborador: NomeColaborador, 
-      DataAdmissao: DataAdmissao, 
+      nomeColaborador: NomeColaborador, 
+      dataAdmissao: datadm, 
       sexo: Sexo,
-      EstadoCivil: EstadoCivil,
-      DataNascimento: DataNascimento, 
-      GrauInstrucao: GrauInstrucao, 
-      Nacionalidade: Nacionalidade, 
-      PeriodoPagamento: PeriodoPagamento, 
+      estadoCivil: EstadoCivil,
+      dataNascimento: datadm, 
+      grauInstrucao: GrauInstrucao, 
+      nacionalidade: Nacionalidade, 
+      periodoPagamento: PeriodoPagamento, 
       deficiencia: Deficiencia, 
       interjornada: Interjornada, 
-      RacaCor: RacaCor, 
-      NumeroCpf: NumeroCpf, 
-      Cargo: Cargo,
-      PostoTrabalho: PostoTrabalho, 
-      DataAlteracaoCcu: DataAlteracaoCcu, 
-      ValorSalario: ValorSalario, 
-      ComplementoSalario: ComplementoSalario
+      racaCor: RacaCor, 
+      numeroCpf: NumeroCpf, 
+      cargo: Cargo,
+      postoTrabalho: PostoTrabalho, 
+      dataAlteracaoCcu: datalt, 
+      valorSalario: ValorSalario, 
+      complementoSalario: ComplementoSalario
     }
 
     await api.post('/colaborador', colaborador)
