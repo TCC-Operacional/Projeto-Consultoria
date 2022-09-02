@@ -69,12 +69,13 @@ function App() {
         if(retorno.data.aviso !== undefined) {
           toast.warn(retorno.data.aviso);
         } else {
-          // document.getElementById('id-input-reset').click();
           // var form = document.getElementById('id-form');
-          // var inputs = form.querySelectAll('input');
+          // var inputs = form.getElementsByClassName('tag-input');
           // for (var i = 0; i < inputs.length; i++) {
-          //   inputs[i].value = '';
+          //   inputs[i].value = '';   
+          //   console.log(inputs[i]);         
           // }
+          document.getElementById('id-input-reset').click();
           toast.success('Colaborador cadastrado com sucesso!');
         }
         setLoading(false);
@@ -84,7 +85,6 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <header className="App-header"> */}
       <header>
         <h1>Cadastro de Colaboradores - Ômega</h1>
       </header>
@@ -144,7 +144,7 @@ function App() {
             </div>
           </div>
           
-          {loading && <img src='./assets/loading.gif' alt='Carregando...' /> }
+          {loading && <><img src='./assets/loading.gif' alt='...' /> <p> Carregando...</p></> }
 
           <div className='div-actions'>
             <button type='button' onClick={handleSubmit} className='btn-submit'>Cadastrar</button>
