@@ -8,7 +8,7 @@
 }
 
 header {
-  background-color: #632bb1;
+  background-color: #660099;
   height: 12vh;
   display: flex;
   text-align: center;
@@ -110,12 +110,12 @@ form label {
 footer {
   padding: 1% 0;
   text-align: center;
-  background-color: #632bb1aa;
+  background-color: #660099aa;
 } 
 
 footer p {
   margin: 5px;
-  color: #ecdfff;
+  color: #f4ebff;
 }
 
 footer span {
