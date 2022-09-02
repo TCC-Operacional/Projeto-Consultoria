@@ -4,8 +4,12 @@ import './css/App.css';
 
 import dados from './assets/dados.json';
 import api from '../src/services/api';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 function App() {
+
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     let NomeColaborador = document.getElementById('id-nomfun').value;
@@ -58,8 +62,23 @@ function App() {
       complementoSalario: ComplementoSalario
     }
 
+    setLoading(true);
+
     await api.post('/colaborador', colaborador)
-      .then(() => alert('Foi!'))
+      .then((retorno) => {
+        if(retorno.data.aviso !== undefined) {
+          toast.warn(retorno.data.aviso);
+        } else {
+          // document.getElementById('id-input-reset').click();
+          // var form = document.getElementById('id-form');
+          // var inputs = form.querySelectAll('input');
+          // for (var i = 0; i < inputs.length; i++) {
+          //   inputs[i].value = '';
+          // }
+          toast.success('Colaborador cadastrado com sucesso!');
+        }
+        setLoading(false);
+      })
       .catch(err => console.log('erro', err));
   };
 
@@ -70,7 +89,7 @@ function App() {
         <h1>Cadastro de Colaboradores - Ômega</h1>
       </header>
       <section>
-        <form>
+        <form id='id-form'>
           <div className='div-pers-data'>
             <div className='header-form-section'>
             <h4>Dados pessoais</h4>
@@ -78,15 +97,24 @@ function App() {
             </div>
 
             <div className='div-infos'>
-              <Input titulo='Nome' type='text' id='id-nomfun' name='nomfun' classe='div-input div-10' />
-              <Select titulo='Sexo' type='text' id='id-tipsex' name='tipsex' classe='div-select div-3' itens={dados.tipsex} />
-              <Input titulo='Data de Nascimento' type='date' id='id-datnas' classe='div-input div-3' />
-              <Select titulo='Estado Civil' type='text' id='id-estciv' name='estciv' classe='div-select div-3' itens={dados.estCiv} />
-              <Select titulo='Grau de Instrução' type='text' id='id-grains' name='grains' classe='div-select div-3' itens={dados.graIns} />
-              <Select titulo='Nacionalidade' type='text' id='id-codnac' name='codnac' classe='div-select div-3' itens={dados.codNac} />
-              <Select titulo='Possui deficiência?' type='text' id='id-coddef' name='coddef' classe='div-select div-3' itens={dados.simNao} />
-              <Select titulo='Raça/Cor' type='text' id='id-raccor' name='raccor' classe='div-select div-3' itens={dados.racaCor} />
-              <Input titulo='CPF' type='text' id='id-numcpf' name='numcpf' classe='div-input div-3' />
+              <Input titulo='Nome' type='text' id='id-nomfun' name='nomfun' 
+                classe='div-input div-10' required />
+              <Select titulo='Sexo' type='text' id='id-tipsex' name='tipsex' 
+                classe='div-select div-3' itens={dados.tipsex} required />
+              <Input titulo='Data de Nascimento' type='date' id='id-datnas' 
+                classe='div-input div-3' />
+              <Select titulo='Estado Civil' type='text' id='id-estciv' name='estciv' 
+                classe='div-select div-3' itens={dados.estCiv} required />
+              <Select titulo='Grau de Instrução' type='text' id='id-grains' name='grains' 
+                classe='div-select div-3' itens={dados.graIns} required />
+              <Select titulo='Nacionalidade' type='text' id='id-codnac' name='codnac' 
+                classe='div-select div-3' itens={dados.codNac} required />
+              <Select titulo='Possui deficiência?' type='text' id='id-coddef' name='coddef' 
+                classe='div-select div-3' itens={dados.simNao} required />
+              <Select titulo='Raça/Cor' type='text' id='id-raccor' name='raccor' 
+                classe='div-select div-3' itens={dados.racaCor} required />
+              <Input titulo='CPF' type='text' id='id-numcpf' name='numcpf' 
+                classe='div-input div-3' required />
             </div>
           </div>
 
@@ -97,20 +125,30 @@ function App() {
             </div>
           
             <div className='div-infos'>
-              <Input titulo='Data de Admissão' type='date' id='id-datadm' name='datadm' classe='div-input div-3' />
-              <Input titulo='Data Alteração Centro de Custo' type='date' id='id-dataltccu' name='dataltccu' classe='div-input div-3' />
-              <Select titulo='Período de Pagamento' type='text' id='id-perpag' name='perpag' classe='div-select div-3' itens={dados.perPag} />
-              <Select titulo='Cargo' id='id-codcar' type='text' name='codcar' classe='div-select div-3' itens={dados.codCar} />
-              <Select titulo='Posto de Trabalho' type='text' id='id-postra' name='postra' classe='div-select div-3' itens={dados.posTra} />
-              <Input titulo='Salário' type='number' id='id-valsal' name='valsal' classe='div-input div-3' />
-              <Input titulo='Complemento do Salário' type='number' id='id-cplsal' name='cplsal' classe='div-input div-3' />
-              <Select titulo='Interjornada' type='text' id='id-verint' name='verint' classe='div-select div-3' itens={dados.verInt} />
+              <Input titulo='Data de Admissão' type='date' id='id-datadm' name='datadm' 
+                classe='div-input div-3' required />
+              <Input titulo='Data Alteração Centro de Custo' type='date' id='id-dataltccu' name='dataltccu' 
+                classe='div-input div-3' required />
+              <Select titulo='Período de Pagamento' type='text' id='id-perpag' name='perpag' 
+                classe='div-select div-3' itens={dados.perPag} required />
+              <Select titulo='Cargo' id='id-codcar' type='text' name='codcar' 
+                classe='div-select div-3' itens={dados.codCar} required />
+              <Select titulo='Posto de Trabalho' type='text' id='id-postra' name='postra' 
+                classe='div-select div-3' itens={dados.posTra} required />
+              <Input titulo='Salário' type='number' id='id-valsal' name='valsal' 
+                classe='div-input div-3' required />
+              <Input titulo='Complemento do Salário' type='number' id='id-cplsal' name='cplsal' 
+                classe='div-input div-3' required />
+              <Select titulo='Interjornada' type='text' id='id-verint' name='verint' 
+                classe='div-select div-3' itens={dados.verInt} required />
             </div>
           </div>
+          
+          {loading && <img src='./assets/loading.gif' alt='Carregando...' /> }
 
           <div className='div-actions'>
             <button type='button' onClick={handleSubmit} className='btn-submit'>Cadastrar</button>
-            <input type='reset' value='Limpar campos' className='input-reset' />
+            <input type='reset' value='Limpar campos' className='input-reset' id='id-input-reset' />
           </div>
         </form>
       </section>

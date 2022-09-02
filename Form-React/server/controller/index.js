@@ -12,7 +12,6 @@ CadastroColaborador = (req, res) => {
 
   webService();
 
-  // async/await
   async function webService() {
     try {
       var soap = require('soap');
@@ -21,8 +20,14 @@ CadastroColaborador = (req, res) => {
       var client = await soap.createClientAsync(url, process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0");
       var result = await client.InsereFuncionarioAsync(args);
       console.log(result[0]);
+      if (result[0].result.retorno.msgRet === 'Funcionário inserido com sucesso!')
+        return res.json({ msg: result[0].result.retorno.msgRet });
+      else  
+        return res.json({ aviso: result[0].result.retorno.msgRet });
+
     } catch (error) {
-      console.log({ error });
+      // return res.json({ aviso: result[0].result.retorno.msgRet });
+      console.log('ERRO', error);
     }
   }
 
