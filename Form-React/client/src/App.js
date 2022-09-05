@@ -30,24 +30,26 @@ function App() {
     let ValorSalario = document.getElementById('id-valsal').value;
     let ComplementoSalario = document.getElementById('id-cplsal').value;
     
-    let datadm = new Date(DataAdmissao);
-    datadm.setDate(datadm.getDate() + 1)
-    datadm = datadm.toLocaleDateString();
+    // let datadm = new Date(DataAdmissao);
+    // datadm.setDate(datadm.getDate() + 1)
+    // datadm = datadm.toLocaleDateString();
     
-    let datnas = new Date(DataNascimento);
-    datnas.setDate(datnas.getDate() + 1)
-    datnas = datnas.toLocaleDateString();
+    // let datnas = new Date(DataNascimento);
+    // datnas.setDate(datnas.getDate() + 1)
+    // datnas = datnas.toLocaleDateString();
     
-    let datalt = new Date(DataAlteracaoCcu);
-    datalt.setDate(datalt.getDate() + 1)
-    datalt = datalt.toLocaleDateString();
+    // let datalt = new Date(DataAlteracaoCcu);
+    // datalt.setDate(datalt.getDate() + 1)
+    // datalt = datalt.toLocaleDateString();
     
     const colaborador = {
       nomeColaborador: NomeColaborador, 
-      dataAdmissao: datadm, 
+      // dataAdmissao: datadm, 
+      dataAdmissao: DataAdmissao,
       sexo: Sexo,
       estadoCivil: EstadoCivil,
-      dataNascimento: datadm, 
+      // dataNascimento: datnas,
+      dataNascimento: DataNascimento, 
       grauInstrucao: GrauInstrucao, 
       nacionalidade: Nacionalidade, 
       periodoPagamento: PeriodoPagamento, 
@@ -57,7 +59,8 @@ function App() {
       numeroCpf: NumeroCpf, 
       cargo: Cargo,
       postoTrabalho: PostoTrabalho, 
-      dataAlteracaoCcu: datalt, 
+      // dataAlteracaoCcu: datalt, 
+      dataAlteracaoCcu: DataAlteracaoCcu,
       valorSalario: ValorSalario, 
       complementoSalario: ComplementoSalario
     }
@@ -79,6 +82,7 @@ function App() {
           toast.success('Colaborador cadastrado com sucesso!');
         }
         setLoading(false);
+
       })
       .catch(err => console.log('erro', err));
   };
@@ -144,7 +148,7 @@ function App() {
             </div>
           </div>
           
-          {loading && <><img src='./assets/loading.gif' alt='...' /> <p> Carregando...</p></> }
+          {loading && <p> Carregando...</p> }
 
           <div className='div-actions'>
             <button type='button' onClick={handleSubmit} className='btn-submit'>Cadastrar</button>
