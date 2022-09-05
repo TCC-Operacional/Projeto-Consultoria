@@ -4,6 +4,9 @@ Definir Funcao main();
 definir alfa aPresenteEmFun;
 definir alfa aPresenteEmUsu;
 Definir alfa aConsistente;
+Definir numero xConsistentes;
+Definir numero xCountFun;
+Definir numero xCountUsu;
 
 @Funcoes@
 Definir Funcao atribuirParametros();
@@ -53,20 +56,25 @@ Funcao main();{
 Funcao atribuirParametros();{
     aNomeSecao = "Adicional_1";
     nFunNumEmp = 1;
+    xConsistentes = 0;
+    xCountFun = 0;
+    xCountUsu = 0;
 }
 
 
 Funcao iniciarCursorR034FUNcompareUSUTFun1();{
 
-    aSQLfulljoin = "SELECT                                                                          \
-                        numemp, numcad, tipcol, nomfun,                             \
-                        USU_numemp, USU_numcad, USU_tipcol, USU_nomfun      \
-                    FROM r034fun                                                                \
-                    FULL OUTER JOIN USU_T_Omega                                                 \
-                        ON  numemp = USU_numemp                                            \
-                        and numcad = USU_numcad                                           \
-                        and tipcol = USU_tipcol                                           \
-                        ";    
+    aSQLfulljoin = "SELECT                                                     \                      
+                        numemp, numcad, tipcol, nomfun,                        \     
+                        USU_numemp, USU_numcad, USU_tipcol, USU_nomfun         \
+                      FROM r034fun fun                                         \                   
+                   FULL OUTER JOIN USU_T_Omega usu                             \                
+                      ON  numemp = USU_numemp                                  \          
+                      and numcad = USU_numcad                                  \         
+                      and tipcol = USU_tipcol                                  \         
+                    where fun.USU_academia = 1                                 \
+                       or usu.USU_academia = 1                                 \
+                 order by fun.numcad, usu.usu_numcad";    
 
     SQL_Criar(cTr034funUSUTOmega);
     SQL_UsarAbrangencia(cTr034funUSUTOmega, 0);
@@ -95,6 +103,8 @@ Funcao pegarDadosTabela();{
 
         
         SQL_Proximo(cTr034funUSUTOmega);
+        
+        xTotalRegistros ++;
 
         definirNomeFuncionario();
         existeColaborador();
@@ -106,30 +116,46 @@ Funcao pegarDadosTabela();{
 
 
 Funcao definirNomeFuncionario();{
+    Definir alfa aNumeroCadastro; 
+         
 
     se (aFunNomFun <> ""){
-        aNomeFunView = aFunNomFun;
-    }senao se(aTuserUSUNomFun <> ""){
-        aTuserUSUNomFun = aFunNomFun;
+        IntparaAlfa(nFunNumCad , aNumeroCadastro);
+        aNomeFunView = aNumeroCadastro + " - " + aFunNomFun;
+    }senao {
+        IntparaAlfa(nTuserUSUNumCad , aNumeroCadastro);
+        aNomeFunView = aNumeroCadastro + " - " + aTuserUSUNomFun;
     }
 }
 
 Funcao existeColaborador();{
 
     se(nFunNumCad <> 0){
-        aPresenteEmFun = "O";
-    }senao
+        xCountFun ++;
+        aPresenteEmFun = "•";
+        alteraControle("imagem_fun_false", "imprimir", "falso");
+        alteraControle("imagem_fun_true", "imprimir", "verdadeiro");
+    }senao {
         aPresenteEmFun = "";
-    
+        alteraControle("imagem_fun_true", "imprimir", "falso");
+        alteraControle("imagem_fun_false", "imprimir", "verdadeiro");    
+    }
 
     
     se(nTuserUSUNumCad <> 0){
-        aPresenteEmUsu = "O";
-    }senao
+        xCountUsu ++;
+        aPresenteEmUsu = "•";
+        alteraControle("imagem_usu_false", "imprimir", "falso");
+        alteraControle("imagem_usu_true", "imprimir", "verdadeiro");
+    }senao  {
         aPresenteEmUsu = "";
-
-
+        alteraControle("imagem_usu_true", "imprimir", "falso");
+        alteraControle("imagem_usu_false", "imprimir", "verdadeiro");
+    }
+    
+    
     se((nFunNumCad <> 0) e (nTuserUSUNumCad <> 0)){
+        xConsistentes ++;
         aConsistente = "Consistente"; 
     }
     

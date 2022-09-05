@@ -1,5 +1,6 @@
 @---- Webservice ----@
 definir interno.com.senior.g5.rh.fp.fichaBasica.FichaBasica_6 fichaBasica;
+definir interno.com.senior.omega.tcc.InsereFuncionario wsOmega;
 definir alfa aResult;
 
 
@@ -104,7 +105,12 @@ definir data dDataAlt;
 definir alfa aHorInc; @ hora da inclusão : DD/MM/AAAA (Time) @
 
 @----------------------------------Main----------------------------------------@
+definir alfa aQuebraLinha;
 
+RetornaAscii(10,aQuebraLinha);
+
+
+aMsgRet = "";
 xCodErr = 0;
 aMsgRetFicha = "";
 xCodErrFicha = 0;
@@ -118,9 +124,11 @@ DefineValores();
 @@
 PostodeTrabalho();  
 @@                                            
-AssociarValores();    
+AssociarValores();   
 @Altera MsgRet caso a entrada não seja válida@                                                           
 ValidarEntrada();  
+
+@InsereFuncionario.ErrorMSG = aMsgRet;@  
   
 se (aMsgRet = "") {
   @ chama a função que cadastra na R034FUN @
@@ -128,9 +136,9 @@ se (aMsgRet = "") {
   
   aResult = fichaBasica.erroExecucao;
 
-  InsereFuncionario.ErrorMSG = aResult;
+  @InsereFuncionario.ErrorMSG = aResult;   @
 
-  aMsgRet = aResult;
+  aMsgRet = aResult ;
   
   VerificarCadastroR034FUN();                                                       
 
@@ -266,7 +274,14 @@ funcao VariaveisValorFixo();{
 }
     
 @Define valores para as variáveis da regra@
-funcao DefineValores(); {                                                       
+funcao DefineValores(); { 
+
+
+  Definir alfa aDatAdm;                                 
+  Definir alfa aDatNas;
+  
+
+
   @Variáveis numéricas@
   
   aEstadoCivil = InsereFuncionario.EstadoCivil; @ 1 @
@@ -289,9 +304,28 @@ funcao DefineValores(); {
   aCodCar = InsereFuncionario.Cargo;  @  @
   
   @Variáveis do tipo data@
-  dDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
-  dDatNas = InsereFuncionario.DataNascimento;
+  aDatAdm = InsereFuncionario.DataAdmissao;  @ datAdm @                                
+  aDatNas = InsereFuncionario.DataNascimento;
   @dDatAltCcu = InsereFuncionario.DataAlteracaoCcu;@ @ 05/08/2022 @
+
+ @Para verificar os valores de entrada e evitar cadastra indevidamente descomente @
+ 
+ AlfaParaData(aDatAdm, "YYYY-MM-DD", dDatAdm);
+ se ( aDatNas <> "" )
+    AlfaParaData(aDatNas, "YYYY-MM-DD", dDatNas);
+ 
+ 
+  /*  para verificar os valores de todos os parâmetros descomente 
+
+
+  ConverteMascara (3,dDatNas, aDatNas,"DD/MM/YYYY");
+  aMsgRet = " ;nome: "+aNomFun+ " ;tipsex: "+aTipSex+ " ;PerPag: "+aPerPag
+            + " ;EstadoCivil:" +aEstadoCivil+ " ;aGrauInstrucao:"+aGrauInstrucao+
+            " ;aNacionalidade:"+aNacionalidade+" ;aNumCpf:"+aNumCpf+ " ;aRacaCor:"+aRacaCor+
+            " ;aCotDef:"+aCotDef+" ;aVerInt:"+aVerInt+" ;aPosTra:"+aPosTra+" ;aCodCar:"+aCodCar+
+            " ;DatAdm:"+aDatAdm+" ;aDatNas: "+aDatNas;
+            */
+            
 
 }
 
@@ -322,7 +356,7 @@ funcao AssociarValores(); {
       aPerPag = "Q";
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina um periodo de Pagamento";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um periodo de Pagamento ";
     xCodErr = 1;
   }
 
@@ -343,7 +377,7 @@ funcao AssociarValores(); {
       aCodCar = "15";
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina um Cargo";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um Cargo";
     xCodErr = 1;
   }
 
@@ -356,7 +390,7 @@ funcao AssociarValores(); {
       aVerInt = "I";
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina um periodo a Interjornada";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um periodo a Interjornada";
     xCodErr = 1;
   }
 
@@ -371,7 +405,7 @@ funcao AssociarValores(); {
       xEstCiv = 4;
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina um Estado Civil";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um Estado Civil";
     xCodErr = 1;
   }
 
@@ -392,7 +426,7 @@ funcao AssociarValores(); {
       xGraIns = 10;
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina um grau de Instrução";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um grau de Instrução";
     xCodErr = 1;
   }
 
@@ -416,7 +450,7 @@ funcao AssociarValores(); {
     senao se (aNacionalidade = "Belga")
       xCodNac = 31;
   } senao {
-    aMsgRet = aMsgRet + " Defina um País de origem ";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina um País de origem ";
     xCodErr = 1;
   }
 
@@ -435,7 +469,7 @@ funcao AssociarValores(); {
       xRacCor = 5;
     }
   } senao {
-    aMsgRet = aMsgRet + " Defina a Raça ou cor";
+    aMsgRet = aMsgRet + aQuebraLinha + " Defina a Raça ou cor";
     xCodErr = 1;
   }
 
@@ -444,14 +478,12 @@ funcao AssociarValores(); {
 
 @ A variavel aMsgRet retorna caso uma das entradas não seja valida @
 funcao ValidarEntrada();{
-  definir alfa aQuebraLinha;
-
-  RetornaAscii(13,aQuebraLinha);
+  
   TamanhoAlfa(aNomFun, vTam);
   
-  se (vTam < 5){
+  se (vTam < 4){
     xCodErr = 1;
-    aMsgRet = "O nome precisa ter 5 ou mais caracteres!";
+    aMsgRet = "O nome precisa ter 4 ou mais caracteres!";
   } 
 
   se ((aTipSex <> "M") e (aTipSex <> "F")){
@@ -490,9 +522,9 @@ funcao PostodeTrabalho();{
 
 @Define os valores dos parâmetros de saída@
 funcao RetornaWebService(); {      
-  InsereFuncionario.retorno.CriarLinha();                                       
-  InsereFuncionario.retorno.codRet = xCodErr;
-  InsereFuncionario.retorno.msgRet = aMsgRet;
+  /*InsereFuncionario.retorno.CriarLinha();                                       
+  InsereFuncionario.retorno.codRet = xCodErr;   */
+  InsereFuncionario.msgRet = aMsgRet;
 }
 
 @@
@@ -502,7 +534,7 @@ funcao CadastroFichaBasica();{
   Definir alfa aDataAlt;
 
   @ConverteMascara (1,xNumCpf,aNumCpf,"999.999.999-99");@
-  ConverteMascara (3,dDataAlt,aDataAlt,"DD/MM/AAAA");
+  ConverteMascara (3,dDataAlt,aDataAlt,"DD/MM/YYYY");
 
   fichaBasica.numEmp = xNumEmp; 
   fichaBasica.datAdm = dDatAdm; 
@@ -594,7 +626,7 @@ Se (cur_r034fun.achou){
 	xCodErrFicha = 0;
   
 } senao {
-  aMsgRet = aMsgRet + " Cadastro não foi feito em R034FUN, portando cadastro encerrado para evitar inconsistencia"; 
+  aMsgRet = aMsgRet + aQuebraLinha + " Cadastro não foi feito em R034FUN, portando cadastro encerrado para evitar inconsistencia "; 
 }
 	
 cur_r034fun.FecharCursor();
