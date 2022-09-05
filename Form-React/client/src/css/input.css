@@ -1,0 +1,10 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input[type = text], 
+input[type = date],
+input[type = number] {
+  height: 25px;
+  text-indent: 5px;
+}
