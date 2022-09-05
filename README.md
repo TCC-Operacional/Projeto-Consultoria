@@ -144,6 +144,8 @@ ExecutaRelatorio("FPRE188.COL", "N");
 
 ### Serviço de integração com o web Service
 
+**URL:** https://ltw201904.lobtec.com.br:8181/SXI/G5Rest?server=https://ltw201904.lobtec.com.br:8181&module=rubi&service=com.senior.omega.tcc&port=InsereFuncionario
+
 <img src="https://user-images.githubusercontent.com/44294260/187779925-2518fd81-38d8-47ff-bd17-bf2968f50221.png" alt="" width="70%" height="70%">
 
 <img src="https://user-images.githubusercontent.com/44294260/187779714-10aa685b-e671-4e82-a811-601ab832c9b5.png" alt="" width="70%" height="70%">
