@@ -12,7 +12,8 @@
 
 <h4>Fluxo de Desenvolvimento</h4>
 
-* <i>Criação de um formulário para cadastro do colaborador através do BPM;</i>
+* Criação de um formulário para cadastro do colaborador através do BPM;
+  - desenvolvimento de um <a href="https://github.com/TCC-Operacional/Projeto-Consultoria/tree/main/Form-React">ambiente de teste</a> com Node.JS e React para utilizar o web service;
 * Criação de uma tabela do nosso grupo no CDBS que espelha a R034FUN com os campos obrigatórios e com o nome personalizado: USU_T_Omega;
   - adição de novo campo com enumerador para diferenciar nossos registros inseridos na R034FUN dos de outros grupos: USU_ACADEMIA, inserindo os registros com valor 1 neste campo;
   - criação de postos de trabalho (POSTO OMEGA 01 e POSTO OMEGA 02) para personalizar as inserções;
